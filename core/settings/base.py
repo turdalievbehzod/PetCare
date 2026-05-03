@@ -43,22 +43,20 @@ THIRD_PARTY_APPS = [
 MY_APPS = [
     'apps.shared',
     'apps.users',
-    'apps.notifications',
-    'apps.integrations',
-    'apps.news',
-    'apps.services',
-    'apps.events',
-    'apps.steps',
+    'apps.info',
+    'apps.feedback',
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
 INSTALLED_APPS += MY_APPS
+INSTALLED_APPS += ['corsheaders']
 
 # -------------------------------------------------------------------
 # MIDDLEWARE
 # -------------------------------------------------------------------
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -181,8 +179,8 @@ REST_FRAMEWORK = {
 
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Green Citizen | Make Your Life Healthier',
-    'DESCRIPTION': 'Be the small part of big changes',
+    'TITLE': 'PetCare API',
+    'DESCRIPTION': 'Veterinary service backend',
     'VERSION': '1.0.0',
 }
 
@@ -215,3 +213,5 @@ CELERY_BEAT_SCHEDULE = {
 # -------------------------------------------------------------------
 # LANGUAGES CONFIG
 # -------------------------------------------------------------------
+
+CORS_ALLOW_ALL_ORIGINS = True

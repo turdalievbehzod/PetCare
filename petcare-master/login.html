@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<section style="margin-top: 120px;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card p-4 shadow-sm">
+
+          <h3 class="text-center mb-3">Login</h3>
+
+          <form id="loginForm">
+
+            <div class="form-group mb-3">
+              <input type="text" name="phone_number" class="form-control" placeholder="Phone number" required>
+            </div>
+
+            <div class="form-group mb-3">
+              <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn header-btn w-100">
+              Login
+            </button>
+
+          </form>
+
+          <p class="text-center mt-3">
+            Don’t have an account?
+            <a href="register.html">Register</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const form = document.getElementById("loginForm");
+  const btn = form.querySelector("button");
+
+  function showError(msg) {
+    alert(msg);
+  }
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const phone = form.phone_number.value.trim();
+    const password = form.password.value.trim();
+
+    if (!phone || !password) {
+      showError("Fill all fields");
+      return;
+    }
+
+    try {
+      btn.disabled = true;
+      btn.innerText = "Loading...";
+
+      const response = await fetch("http://127.0.0.1:8000/api/v1/users/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          phone_number: phone,
+          password: password
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+
+        // 🔐 сохраняем токены
+        localStorage.setItem("access_token", result.data.access);
+        localStorage.setItem("refresh_token", result.data.refresh);
+
+        alert("Login successful!");
+
+        // 👉 редирект на главную
+        window.location.href = "index.html";
+
+      } else {
+        showError(result.message || JSON.stringify(result.errors));
+      }
+
+    } catch (err) {
+      showError("Server error");
+    } finally {
+      btn.disabled = false;
+      btn.innerText = "Login";
+    }
+  });
+
+});
+</script>
+
+</body>
+</html>
