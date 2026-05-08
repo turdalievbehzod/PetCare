@@ -75,5 +75,13 @@ USER_MESSAGES: Dict[str, MessageTemplate] = {
         },
         "status_code": 400
     },
-
+    "INVALID_VERIFICATION_CODE": {
+    "id": "INVALID_VERIFICATION_CODE",
+    "messages": {
+        "en": "Invalid verification code",
+        "uz": "Tasdiqlash kodi noto'g'ri",
+        "ru": "Неверный код подтверждения",
+    },
+    "status_code": 400
+},
 }

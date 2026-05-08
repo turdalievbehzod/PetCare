@@ -14,7 +14,7 @@ def send_verification_code(user_id):
         return
 
     code = user.generate_verification_code()
-    sleep(3)  # Simulate delay for sending code
+    # sleep(3)  # Simulate delay for sending code
     """Send the verification code to the user's phone number or email."""
     # This is a placeholder function. You would implement the actual sending logic here,
     # such as using an SMS gateway for phone numbers or an email service for email addresses.

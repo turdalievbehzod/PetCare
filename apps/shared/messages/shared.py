@@ -138,4 +138,13 @@ SHARED_MESSAGES: Dict[str, MessageTemplate] = {
         },
         "status_code": 400
     },
+    "CODE_SENT_SUCCESSFULLY": {
+        "id": "CODE_SENT_SUCCESSFULLY",
+        "messages": {
+            "en": "The code has been successfully sent to the email of user",
+            "uz": "Kod foydalanuvchi pochtasiga muvaffaqiyatli yuborilgan",
+            "ru": "Код успешно отправлен на почту пользователя",
+        },
+        "status_code": 200
+    },
 }

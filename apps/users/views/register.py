@@ -12,19 +12,30 @@ class RegisterAPIView(APIView):
     serializer_class = RegisterSerializer
 
     def post(self, request):
+        print("🚀 REGISTER VIEW HIT")
+        
         serializer = self.serializer_class(data=request.data)
 
         if not serializer.is_valid():
+            print("❌ SERIALIZER ERROR:", serializer.errors)
             return CustomResponse.error(
                 request=request,
                 errors=serializer.errors,  
                 message_key="VALIDATION_ERROR"
             )
-
+        
+        print("✅ SERIALIZER VALID")
         user = serializer.save()
 
+        print("👤 USER CREATED:", user.id)
+        
+        print("📨 CALLING SEND CODE")
 
-        send_verification_code.delay(user.id)
+        try:
+            code = user.generate_verification_code()
+            print("CODE:", code)
+        except Exception as e:
+            print("ERROR IN GENERATE:", e)
 
         return CustomResponse.success(
             request=request,

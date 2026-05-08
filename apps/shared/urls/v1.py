@@ -2,7 +2,7 @@ from django.urls import path
 
 from apps.shared.views.media import MediaUploadView, MediaListView, MediaDetailView
 
-app_name = 'shared'
+app_name = 'apps.shared'
 
 urlpatterns = [
     path('media/', MediaListView.as_view(), name='media-list'),
