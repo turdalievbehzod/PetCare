@@ -65,7 +65,7 @@ class VerifyCodeAPIView(APIView):
         return CustomResponse.success(
             request=request,
             data=data,
-            message_key="CODE_VERIFICATED_SUCCESSFULLY"
+            message_key="CODE_VERIFIED_SUCCESSFULLY"
         )
 
 class ResendVerificationCodeAPIView(APIView):

@@ -61,11 +61,17 @@ class VerifyCodeSerializer(serializers.Serializer):
         phone_number = attrs.get("phone_number")
         code = attrs.get("code")
         user = User.objects.filter(phone_number=phone_number).first()
+        
+
+        
         if not user:
             raise CustomException(
                 message_key="USER_NOT_FOUND"
             )
         verification = VerificationCode.objects.filter(user=user, code=code).first()
+        print("VERIFICATION:", verification)
+        print("PHONE:", phone_number)
+        print("CODE:", code)
         if not verification:
             raise CustomException(
                 message_key="INVALID_VERIFICATION_CODE"

@@ -154,14 +154,31 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         cache_key = f'user_{self.id}_perms'
         cache.delete(cache_key)
 
-    @staticmethod
-    def generate_verification_code(length=6):
-        """Generate a random verification code consisting of digits."""
+    def generate_verification_code(self, length=6):
         import random
         import string
 
+        from django.apps import apps
+
+        VerificationCode = apps.get_model(
+            'users',
+            'VerificationCode'
+        )
+
+        VerificationCode.objects.filter(user=self).delete()
+
         characters = string.digits
-        verification_code = ''.join(random.choice(characters) for _ in range(length))
+
+        verification_code = ''.join(
+            random.choice(characters)
+            for _ in range(length)
+        )
+
+        VerificationCode.objects.create(
+            user=self,
+            code=verification_code
+        )
+
         return verification_code
 
     class Meta:
