@@ -61,15 +61,13 @@
                                                 <ul class="submenu">
                                                     <li><a href="blog.html">Blog</a></li>
                                                     <li><a href="blog_details.html">Blog Details</a></li>
-                                                    <li><a href="elements.html">Element</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="contact.html">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>
-                                <div class="header-right-btn f-right d-none d-lg-block ml-30">
-                                    <a href="#" class="header-btn">01654.066.456</a>
+                                <div class="header-right-btn f-right d-none d-lg-block ml-30" id="auth-buttons">
                                 </div>
                             </div>
                         </div>   
@@ -109,73 +107,8 @@
                         </div> 
                     </div>
                 </div>
-                <div class="row">
-                    <div class=" col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animal-kingdom"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Boarding</a></h5>
-                                <p>consectetur adipiscing elit, serfd dgo eiusmod tempor incididunt ut ore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                 <span class="flaticon-animals"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Treatment</a></h5>
-                                <p>consectetur adipiscing elit, serfd dgo eiusmod tempor incididunt ut ore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                               <span class="flaticon-animals-1"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Vaccinations</a></h5>
-                                <p>consectetur adipiscing elit, serfd dgo eiusmod tempor incididunt ut ore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                 <span class="flaticon-animals"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Treatment</a></h5>
-                                <p>consectetur adipiscing elit, serfd dgo eiusmod tempor incididunt ut ore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                               <span class="flaticon-animals-1"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Vaccinations</a></h5>
-                                <p>consectetur adipiscing elit, serfd dgo eiusmod tempor incididunt ut ore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animal-kingdom"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Boarding</a></h5>
-                                <p>consectetur adipiscing elit, serfd dgo eiusmod tempor incididunt ut ore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row" id="services-grid">
+                    <!-- loaded dynamically -->
                 </div>
             </div>
         </div>
@@ -235,7 +168,7 @@
                                 <ul>
                                     <li><a href="index.html">Home</a></li>
                                     <li><a href="about.html">About Us</a></li>
-                                    <li><a href="single-blog.html">Services</a></li>
+                                    <li><a href="services.html">Services</a></li>
                                     <li><a href="#">Cases</a></li>
                                     <li><a href="contact.html">  Contact Us</a></li>
                                 </ul>
@@ -316,16 +249,49 @@
         <script src="./assets/js/jquery.nice-select.min.js"></script>
 		<script src="./assets/js/jquery.sticky.js"></script>
         
-        <!-- contact js -->
-        <script src="./assets/js/contact.js"></script>
-        <script src="./assets/js/jquery.form.js"></script>
-        <script src="./assets/js/jquery.validate.min.js"></script>
-        <script src="./assets/js/mail-script.js"></script>
-        <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
-        
-		<!-- Jquery Plugins, main Jquery -->	
         <script src="./assets/js/plugins.js"></script>
         <script src="./assets/js/main.js"></script>
-        
+        <script src="./assets/js/api.js"></script>
+        <script>
+        (async () => {
+            const services = await apiFetch('/services/');
+            const grid = document.getElementById('services-grid');
+            if (!grid) return;
+            if (!services || !services.length) {
+                grid.innerHTML = '<p class="text-center col-12">No services available yet.</p>';
+                return;
+            }
+            grid.innerHTML = services.map(s => `
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services text-center mb-30">
+                        <div class="services-ion">
+                            <span class="${s.icon_class}"></span>
+                        </div>
+                        <div class="services-cap">
+                            <h5><a href="#">${s.title}</a></h5>
+                            <p>${s.description}</p>
+                        </div>
+                    </div>
+                </div>`).join('');
+            loadContactGlobal();
+        })();
+        </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const authContainer = document.getElementById("auth-buttons");
+        const token = localStorage.getItem("access_token");
+        if (token) {
+            authContainer.innerHTML = '<a href="#" id="logoutBtn" class="header-btn">Logout</a>';
+            document.getElementById("logoutBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                window.location.reload();
+            });
+        } else {
+            authContainer.innerHTML = '<a href="login.html" class="header-btn mr-2">Login</a><a href="register.html" class="header-btn">Register</a>';
+        }
+    });
+    </script>
     </body>
 </html>

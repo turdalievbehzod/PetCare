@@ -29,6 +29,10 @@ INSTALLED_APPS += [
     # 'debug_toolbar',
 ]
 
+ESKIZ_EMAIL = config.ESKIZ_EMAIL
+ESKIZ_PASSWORD = config.ESKIZ_PASSWORD
+DEBUG_SMS = config.DEBUG_SMS
+
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',

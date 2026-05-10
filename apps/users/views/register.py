@@ -1,7 +1,12 @@
+import logging
+
+from django.conf import settings
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 
 from apps.shared.utils.custom_response import CustomResponse
+
+logger = logging.getLogger(__name__)
 from apps.users.serializers.register import LoginSerializer, MeSerializer, ProfileUpdateSerializer, RegisterSerializer, ResendVerificationCodeSerializer, SetPasswordSerializer, UpdatePasswordSerializer, UpdatePhoneSerializer, VerifyCodeSerializer, VerifyUpdateCodeSerializer
 from apps.users.utils.verification_code import send_verification_code
 from apps.users.views.users import UserSerializer
@@ -36,9 +41,17 @@ class RegisterAPIView(APIView):
             print("CODE:", code)
         except Exception as e:
             print("ERROR IN GENERATE:", e)
+            code = None
+
+        data = {}
+        if getattr(settings, 'DEBUG_SMS', False) and code:
+            logger.info("[DEBUG_SMS] code for %s: %s", user.phone_number, code)
+            print(f"[DEBUG_SMS] Verification code for {user.phone_number}: {code}")
+            data['debug_code'] = code
 
         return CustomResponse.success(
             request=request,
+            data=data or None,
             message_key="CODE_SENT_SUCCESSFULLY"
         )
 

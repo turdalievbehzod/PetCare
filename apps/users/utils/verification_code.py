@@ -1,29 +1,36 @@
-from time import sleep
+import logging
 
 from celery import shared_task
+from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 
 @shared_task
 def send_verification_code(user_id):
     from apps.users.models.users import User
+    from apps.users.utils.eskiz import send_sms
 
     try:
         user = User.objects.get(id=user_id)
     except User.DoesNotExist:
-        print(f"User with id {user_id} not found.")
+        logger.warning("send_verification_code: user %s not found", user_id)
         return
 
     code = user.generate_verification_code()
-    # sleep(3)  # Simulate delay for sending code
-    """Send the verification code to the user's phone number or email."""
-    # This is a placeholder function. You would implement the actual sending logic here,
-    # such as using an SMS gateway for phone numbers or an email service for email addresses.
-    if user.phone_number:
-        print(f"Sending verification code {code} to phone number {user.phone_number}")
-        # Implement SMS sending logic here
-    elif user.email:
-        print(f"Sending verification code {code} to email {user.email}")
-        # Implement email sending logic here
-    else:
-        print("No contact information available to send the verification code.")
 
+    if getattr(settings, 'DEBUG_SMS', False):
+        logger.info("[DEBUG_SMS] code for %s: %s", user.phone_number or user.email, code)
+        print(f"[DEBUG_SMS] Verification code for {user.phone_number or user.email}: {code}")
+        return
+
+    if user.phone_number:
+        message = f"Your verification code: {code}"
+        sent = send_sms(user.phone_number, message)
+        if not sent:
+            logger.error("Failed to send verification SMS to %s", user.phone_number)
+    elif user.email:
+        # Email fallback placeholder — wire up an email backend when ready
+        logger.info("Email verification code %s for %s", code, user.email)
+    else:
+        logger.error("No contact info for user %s to send verification code", user_id)

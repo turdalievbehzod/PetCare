@@ -61,15 +61,13 @@
                                                 <ul class="submenu">
                                                     <li><a href="blog.html">Blog</a></li>
                                                     <li><a href="blog_details.html">Blog Details</a></li>
-                                                    <li><a href="elements.html">Element</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="contact.html">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>
-                                <div class="header-right-btn f-right d-none d-lg-block ml-30">
-                                    <a href="#" class="header-btn">01654.066.456</a>
+                                <div class="header-right-btn f-right d-none d-lg-block ml-30" id="auth-buttons">
                                 </div>
                             </div>
                         </div>   
@@ -102,12 +100,12 @@
                                     <span data-animation="fadeInUp" data-delay=".3s">We help to groom your pet</span>
                                     <h1 data-animation="fadeInUp" data-delay=".3s">We Care Your Pets.</h1>
                                     <p data-animation="fadeInUp" data-delay=".6s">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna sectetur adipisci.</p>
-                                    <a href="#" class="hero-btn" data-animation="fadeInLeft" data-delay=".3s">Contact Now<i class="ti-arrow-right"></i> </a>
+                                    <a href="contact.html" class="hero-btn" data-animation="fadeInLeft" data-delay=".3s">Contact Now<i class="ti-arrow-right"></i> </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>   
+                </div>
                 <!-- Slider Single -->
                 <div class="single-slider d-flex align-items-center slider-height">
                     <div class="container">
@@ -123,7 +121,7 @@
                                     <span data-animation="fadeInUp" data-delay=".3s">We help to groom your pet</span>
                                     <h1 data-animation="fadeInUp" data-delay=".3s">We Care Your Pets.</h1>
                                     <p data-animation="fadeInUp" data-delay=".6s">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna sectetur adipisci.</p>
-                                    <a href="#" class="hero-btn" data-animation="fadeInLeft" data-delay=".3s">Contact Now<i class="ti-arrow-right"></i> </a>
+                                    <a href="contact.html" class="hero-btn" data-animation="fadeInLeft" data-delay=".3s">Contact Now<i class="ti-arrow-right"></i> </a>
                                 </div>
                             </div>
                         </div>
@@ -148,39 +146,7 @@
                         </div> 
                     </div>
                 </div>
-                <div class="row">
-                    <div class=" col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animal-kingdom"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Boarding</a></h5>
-                                <p>consectetur adipiscing elit, serfd dgo eiusmod tempor incididunt ut ore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animals"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Treatment</a></h5>
-                                <p>consectetur adipiscing elit, serfd dgo eiusmod tempor incididunt ut ore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animals-1"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Vaccinations</a></h5>
-                                <p>consectetur adipiscing elit, serfd dgo eiusmod tempor incididunt ut ore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
+                <div class="row" id="services-grid">
                     </div>
                 </div>
             </div>
@@ -221,7 +187,7 @@
                     <div class="about-more">
                         <p class="pera-top">Mollit anim laborum duis adseu dolor iuyn voluptcate velit ess <br>cillum dolore egru lofrre dsu.</p>
                         <p class="mb-65 pera-bottom">Mollit anim laborum.Dvcuis aute serunt  iruxvfg dhjkolohr indd re voluptate velit esscillumlore eu quife nrulla parihatur. Excghcepteur sfwsignjnt occa cupidatat non aute iruxvfg dhjinulpadeserunt moll.</p>
-                        <a href="#" class="btn">Read More</a>
+                        <a href="about.html" class="btn">Read More</a>
                     </div>
                 </div>
             </div>
@@ -563,7 +529,7 @@
                                 <ul>
                                     <li><a href="index.html">Home</a></li>
                                     <li><a href="about.html">About Us</a></li>
-                                    <li><a href="single-blog.html">Services</a></li>
+                                    <li><a href="services.html">Services</a></li>
                                     <li><a href="#">Cases</a></li>
                                     <li><a href="contact.html">  Contact Us</a></li>
                                 </ul>
@@ -654,6 +620,92 @@
     <!-- Jquery Plugins, main Jquery -->	
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
-        
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const authContainer = document.getElementById("auth-buttons");
+
+        const token = localStorage.getItem("access_token");
+
+        if (token) {
+
+            authContainer.innerHTML = `
+                <a href="#" id="logoutBtn" class="header-btn">Logout</a>
+            `;
+
+            document.getElementById("logoutBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+
+                window.location.reload();
+            });
+
+        } else {
+
+            authContainer.innerHTML = `
+                <a href="login.html" class="header-btn mr-2">Login</a>
+
+                <a href="register.html" class="header-btn">
+                    Register
+                </a>
+            `;
+        }
+
+    });
+    </script>  
+    <script>
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const container = document.getElementById("services-grid");
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/v1/services/"
+        );
+
+        const result = await response.json();
+
+        const services = result.data || result.results || result;
+
+        container.innerHTML = "";
+
+        services.forEach(service => {
+
+            container.innerHTML += `
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services text-center mb-30">
+
+                        <div class="services-ion">
+                            <span class="${service.icon_class || 'flaticon-animal-kingdom'}"></span>
+                        </div>
+
+                        <div class="services-cap">
+                            <h5>
+                                <a href="#">
+                                    ${service.title}
+                                </a>
+                            </h5>
+
+                            <p>
+                                ${service.description}
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+    }
+
+});
+</script>  
     </body>
 </html>

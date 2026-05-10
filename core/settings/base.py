@@ -9,13 +9,13 @@ Environment-specific overrides (local/production) live in:
 from datetime import timedelta
 from pathlib import Path
 
-from celery.schedules import crontab
 
 # -------------------------------------------------------------------
 # PATHS
 # -------------------------------------------------------------------
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+FRONTEND_DIR = BASE_DIR.parent / 'petcare-master'
 
 # -------------------------------------------------------------------
 # APPLICATIONS
@@ -87,7 +87,7 @@ ASGI_APPLICATION = 'core.asgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [FRONTEND_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -205,12 +205,7 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379/2'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
-CELERY_BEAT_SCHEDULE = {
-    'hello-dev': {
-        'task': 'apps.users.utils.verification_code.hello',
-        'schedule': crontab(minute='*/1'),
-    }
-}
+CELERY_BEAT_SCHEDULE = {}
 
 # -------------------------------------------------------------------
 # LANGUAGES CONFIG

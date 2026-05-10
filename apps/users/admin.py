@@ -4,6 +4,23 @@ from apps.users.models.permissions import Role, Endpoint, Permission
 from apps.users.models.user_permissions import UserPermission
 from apps.users.models.users import User
 
+# --- Remove noisy third-party admin panels ---
+# simplejwt token blacklist (internal mechanism — not useful in admin UI)
+try:
+    from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+    admin.site.unregister(OutstandingToken)
+    admin.site.unregister(BlacklistedToken)
+except Exception:
+    pass
+
+# django-celery-results (internal task result storage)
+try:
+    from django_celery_results.models import TaskResult, GroupResult
+    admin.site.unregister(TaskResult)
+    admin.site.unregister(GroupResult)
+except Exception:
+    pass
+
 
 @admin.register(Permission)
 class PermissionAdmin(admin.ModelAdmin):

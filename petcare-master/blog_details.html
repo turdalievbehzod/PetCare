@@ -59,16 +59,14 @@
                                               <ul class="submenu">
                                                   <li><a href="blog.html">Blog</a></li>
                                                   <li><a href="blog_details.html">Blog Details</a></li>
-                                                  <li><a href="elements.html">Element</a></li>
                                               </ul>
                                           </li>
                                           <li><a href="contact.html">Contact</a></li>
                                       </ul>
                                   </nav>
                               </div>
-                              <div class="header-right-btn f-right d-none d-lg-block ml-30">
-                                  <a href="#" class="header-btn">01654.066.456</a>
-                              </div>
+                              <div class="header-right-btn f-right d-none d-lg-block ml-30" id="auth-buttons">
+                                 </div>
                           </div>
                       </div>   
                       <!-- Mobile Menu -->
@@ -102,46 +100,15 @@
                <div class="col-lg-8 posts-list">
                   <div class="single-post">
                      <div class="feature-img">
-                        <img class="img-fluid" src="assets/img/blog/single_blog_1.png" alt="">
+                        <img class="img-fluid" id="blog-cover" src="assets/img/blog/single_blog_1.png" alt="">
                      </div>
                      <div class="blog_details">
-                        <h2>Second divided from form fish beast made every of seas
-                           all gathered us saying he our
-                        </h2>
+                        <h2 id="blog-title"></h2>
                         <ul class="blog-info-link mt-3 mb-4">
-                           <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
-                           <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                           <li><a href="#"><i class="fa fa-user"></i> <span id="blog-author"></span></a></li>
+                           <li><a href="#"><i class="fa fa-calendar"></i> <span id="blog-date"></span></a></li>
                         </ul>
-                        <p class="excert">
-                           MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                           should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                           fraction of the camp price. However, who has the willpower
-                        </p>
-                        <p>
-                           MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                           should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                           fraction of the camp price. However, who has the willpower to actually sit through a
-                           self-imposed MCSE training. who has the willpower to actually
-                        </p>
-                        <div class="quote-wrapper">
-                           <div class="quotes">
-                              MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                              should have to spend money on boot camp when you can get the MCSE study materials yourself at
-                              a fraction of the camp price. However, who has the willpower to actually sit through a
-                              self-imposed MCSE training.
-                           </div>
-                        </div>
-                        <p>
-                           MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                           should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                           fraction of the camp price. However, who has the willpower
-                        </p>
-                        <p>
-                           MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                           should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                           fraction of the camp price. However, who has the willpower to actually sit through a
-                           self-imposed MCSE training. who has the willpower to actually
-                        </p>
+                        <div id="blog-content"></div>
                      </div>
                   </div>
                   <div class="navigation-top">
@@ -389,7 +356,7 @@
                         <div class="media post_item">
                            <img src="assets/img/post/post_1.png" alt="post">
                            <div class="media-body">
-                              <a href="single-blog.html">
+                              <a href="blog_details.html">
                                  <h3>From life was you fish...</h3>
                               </a>
                               <p>January 12, 2019</p>
@@ -398,7 +365,7 @@
                         <div class="media post_item">
                            <img src="assets/img/post/post_2.png" alt="post">
                            <div class="media-body">
-                              <a href="single-blog.html">
+                              <a href="blog_details.html">
                                  <h3>The Amazing Hubble</h3>
                               </a>
                               <p>02 Hours ago</p>
@@ -407,7 +374,7 @@
                         <div class="media post_item">
                            <img src="assets/img/post/post_3.png" alt="post">
                            <div class="media-body">
-                              <a href="single-blog.html">
+                              <a href="blog_details.html">
                                  <h3>Astronomy Or Astrology</h3>
                               </a>
                               <p>03 Hours ago</p>
@@ -416,7 +383,7 @@
                         <div class="media post_item">
                            <img src="assets/img/post/post_4.png" alt="post">
                            <div class="media-body">
-                              <a href="single-blog.html">
+                              <a href="blog_details.html">
                                  <h3>Asteroids telescope</h3>
                               </a>
                               <p>01 Hours ago</p>
@@ -539,7 +506,7 @@
                               <ul>
                                   <li><a href="index.html">Home</a></li>
                                   <li><a href="about.html">About Us</a></li>
-                                  <li><a href="single-blog.html">Services</a></li>
+                                  <li><a href="services.html">Services</a></li>
                                   <li><a href="#">Cases</a></li>
                                   <li><a href="contact.html">  Contact Us</a></li>
                               </ul>
@@ -631,6 +598,44 @@
 		<!-- Jquery Plugins, main Jquery -->	
       <script src="./assets/js/plugins.js"></script>
       <script src="./assets/js/main.js"></script>
+      <script src="./assets/js/api.js"></script>
+      <script>
+        (async function () {
+            var slug = new URLSearchParams(window.location.search).get('slug');
+            if (!slug) return;
+
+            var blog = await apiFetch('/blogs/' + slug + '/');
+            if (!blog) return;
+
+            var cover = document.getElementById('blog-cover');
+            cover.src = imgOrPlaceholder(blog.cover_image_url, 'assets/img/blog/single_blog_1.png');
+            cover.alt = blog.title || '';
+
+            document.getElementById('blog-title').textContent = blog.title || '';
+            document.getElementById('blog-author').textContent = blog.author_name || '';
+            document.getElementById('blog-date').textContent = fmtDate(blog.created_at);
+            document.getElementById('blog-content').innerHTML = blog.content || '';
+
+            if (blog.title) document.title = blog.title + ' | PetCare';
+        })();
+      </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const authContainer = document.getElementById("auth-buttons");
+        const token = localStorage.getItem("access_token");
+        if (token) {
+            authContainer.innerHTML = '<a href="#" id="logoutBtn" class="header-btn">Logout</a>';
+            document.getElementById("logoutBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                window.location.reload();
+            });
+        } else {
+            authContainer.innerHTML = '<a href="login.html" class="header-btn mr-2">Login</a><a href="register.html" class="header-btn">Register</a>';
+        }
+    });
+    </script>
 
 </body>
 

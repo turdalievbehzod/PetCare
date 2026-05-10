@@ -38,3 +38,8 @@ DB_SSLMODE = env.str('DB_SSLMODE', default='prefer')
 # telegram bot
 TELEGRAM_BOT_TOKEN = env.str('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHANNEL_ID = env.str('TELEGRAM_CHANNEL_ID')
+
+# Eskiz SMS gateway
+ESKIZ_EMAIL = env.str('ESKIZ_EMAIL', default='')
+ESKIZ_PASSWORD = env.str('ESKIZ_PASSWORD', default='')
+DEBUG_SMS = env.bool('DEBUG_SMS', default=False)

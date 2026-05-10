@@ -14,10 +14,11 @@ class RegisterSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(required=True)
     language = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, min_length=6)
+    confirm_password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ['phone_number', 'language', 'password']
+        fields = ['phone_number', 'language', 'password', 'confirm_password']
 
     def validate_phone_number(self, phone_number):
         try:
@@ -47,9 +48,15 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise CustomException(message_key="PASSWORD_TOO_SHORT")
         return value
 
+    def validate(self, attrs):
+        if attrs.get("password") != attrs.get("confirm_password"):
+            raise CustomException(message_key="PASSWORDS_DO_NOT_MATCH")
+        return attrs
+
     def create(self, validated_data):
+        validated_data.pop("confirm_password", None)
         user = User.objects.create_user(**validated_data)
-        user.is_active = False  
+        user.is_active = False
         user.save()
         return user
     

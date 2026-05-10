@@ -147,4 +147,13 @@ SHARED_MESSAGES: Dict[str, MessageTemplate] = {
         },
         "status_code": 200
     },
+    "CONTACT_INQUIRY_SENT": {
+        "id": "CONTACT_INQUIRY_SENT",
+        "messages": {
+            "en": "Your message has been sent. We will get back to you soon.",
+            "uz": "Xabaringiz yuborildi. Tez orada siz bilan bog'lanamiz.",
+            "ru": "Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.",
+        },
+        "status_code": 201,
+    },
 }

@@ -60,7 +60,6 @@
                                                 <ul class="submenu">
                                                     <li><a href="blog.html">Blog</a></li>
                                                     <li><a href="blog_details.html">Blog Details</a></li>
-                                                    <li><a href="elements.html">Element</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="contact.html">Contact</a></li>
@@ -101,6 +100,10 @@
 
                 <div class="form-group mb-3">
                 <input type="password" name="password" class="form-control" placeholder="Password" required>
+                </div>
+
+                <div class="form-group mb-3">
+                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password" required>
                 </div>
 
                 <div class="form-group mb-3">
@@ -161,7 +164,7 @@
                                 <ul>
                                     <li><a href="index.html">Home</a></li>
                                     <li><a href="about.html">About Us</a></li>
-                                    <li><a href="single-blog.html">Services</a></li>
+                                    <li><a href="services.html">Services</a></li>
                                     <li><a href="#">Cases</a></li>
                                     <li><a href="contact.html">  Contact Us</a></li>
                                 </ul>
@@ -276,9 +279,10 @@
 
         const phone = form.phone_number.value.trim();
         const password = form.password.value.trim();
+        const confirmPassword = form.confirm_password.value.trim();
         const language = form.language.value;
 
-        
+
         if (!validatePhone(phone)) {
         showError("Invalid phone number format");
         return;
@@ -289,9 +293,15 @@
         return;
         }
 
+        if (password !== confirmPassword) {
+        showError("Passwords do not match");
+        return;
+        }
+
         const data = {
         phone_number: phone,
         password: password,
+        confirm_password: confirmPassword,
         language: language
         };
 
