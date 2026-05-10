@@ -443,7 +443,7 @@
         <script>
         document.addEventListener("DOMContentLoaded", async function () {
             try {
-                const res = await fetch("http://127.0.0.1:8000/api/v1/about/");
+                const res = await fetch("/api/v1/about/");
                 const result = await res.json();
                 const about = result.data ?? result;
                 if (about) {
@@ -476,7 +476,7 @@
             }
 
             try {
-                const res = await fetch("http://127.0.0.1:8000/api/v1/about/team/");
+                const res = await fetch("/api/v1/about/team/");
                 const result = await res.json();
                 const members = result.data ?? result.results ?? result;
                 const grid = document.getElementById("team-grid");
