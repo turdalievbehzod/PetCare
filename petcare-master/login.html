@@ -86,9 +86,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (response.ok) {
 
-        // 🔐 сохраняем токены
-        localStorage.setItem("access_token", result.data.access);
-        localStorage.setItem("refresh_token", result.data.refresh);
+        localStorage.setItem("access_token", result.data.tokens.access);
+        localStorage.setItem("refresh_token", result.data.tokens.refresh);
 
         alert("Login successful!");
 

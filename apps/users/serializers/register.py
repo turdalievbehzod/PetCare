@@ -76,9 +76,6 @@ class VerifyCodeSerializer(serializers.Serializer):
                 message_key="USER_NOT_FOUND"
             )
         verification = VerificationCode.objects.filter(user=user, code=code).first()
-        print("VERIFICATION:", verification)
-        print("PHONE:", phone_number)
-        print("CODE:", code)
         if not verification:
             raise CustomException(
                 message_key="INVALID_VERIFICATION_CODE"

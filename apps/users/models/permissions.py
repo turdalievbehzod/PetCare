@@ -78,18 +78,25 @@ class Endpoint(BaseModel):
         if user.is_superuser:
             return True
 
-        # Try to find matching endpoint
-
         endpoint = cls.objects.filter(
             path=path,
             method=method.upper(),
             is_active=True
         ).select_related('permission').first()
-        # If endpoint not found or no permission required, allow access
-        if not endpoint or not endpoint.permission:
-            return False
 
-        # Check if user has the required permission
+        # Endpoint not in DB → fall through to DRF permission classes
+        if not endpoint:
+            return True
+
+        if endpoint.access_type == 'public':
+            return True
+
+        if endpoint.access_type == 'authenticated':
+            return user.is_authenticated
+
+        # access_type == 'permission'
+        if not endpoint.permission:
+            return False
         return user.has_permission(endpoint.permission.codename)
 
 

@@ -17,36 +17,26 @@ class RegisterAPIView(APIView):
     serializer_class = RegisterSerializer
 
     def post(self, request):
-        print("🚀 REGISTER VIEW HIT")
-        
         serializer = self.serializer_class(data=request.data)
 
         if not serializer.is_valid():
-            print("❌ SERIALIZER ERROR:", serializer.errors)
             return CustomResponse.error(
                 request=request,
-                errors=serializer.errors,  
+                errors=serializer.errors,
                 message_key="VALIDATION_ERROR"
             )
-        
-        print("✅ SERIALIZER VALID")
-        user = serializer.save()
 
-        print("👤 USER CREATED:", user.id)
-        
-        print("📨 CALLING SEND CODE")
+        user = serializer.save()
 
         try:
             code = user.generate_verification_code()
-            print("CODE:", code)
         except Exception as e:
-            print("ERROR IN GENERATE:", e)
+            logger.error("generate_verification_code failed for %s: %s", user.phone_number, e)
             code = None
 
         data = {}
         if getattr(settings, 'DEBUG_SMS', False) and code:
             logger.info("[DEBUG_SMS] code for %s: %s", user.phone_number, code)
-            print(f"[DEBUG_SMS] Verification code for {user.phone_number}: {code}")
             data['debug_code'] = code
 
         return CustomResponse.success(

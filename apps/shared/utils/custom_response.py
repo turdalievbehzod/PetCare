@@ -74,7 +74,7 @@ class CustomResponse:
 
     @staticmethod
     def success(
-            message_key: str = "SUCCESS_MESSAGE",
+            message_key: str = "SUCCESS",
             request: Request = None,
             data: Any = None,
             context: Dict[str, Any] = None,

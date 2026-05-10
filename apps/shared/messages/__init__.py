@@ -25,7 +25,7 @@ def _validate_messages():
     message_sources = [
         ("SHARED_MESSAGES", SHARED_MESSAGES),
         ("VERSION_MESSAGES", VERSION_MESSAGES),
-        ("VERSION_MESSAGES", USER_MESSAGES),
+        ("USER_MESSAGES", USER_MESSAGES),
         ("EXCEPTION_MESSAGES", EXCEPTION_MESSAGES),
     ]
 

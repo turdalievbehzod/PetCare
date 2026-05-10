@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"d:\\\\N73\\\\superproyektcollaborationuraaaa\\\\vet-proj-exam\" -Force)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "PowerShell(Get-ChildItem -Path \"d:\\\\N73\\\\superproyektcollaborationuraaaa\\\\vet-proj-exam\" -Depth 2 -Force -ErrorAction SilentlyContinue | Where-Object { $_.FullName -notmatch 'venv|\\\\.git' } | Sort-Object FullName | Select-Object FullName)",
+      "Bash(ls \"d:\\\\N73\\\\superproyektcollaborationuraaaa\")",
+      "Read(//d/N73/superproyektcollaborationuraaaa/**)",
+      "Bash(ls \"d:\\\\N73\\\\superproyektcollaborationuraaaa\\\\vet-proj-exam\" && echo \"---\" && ls \"d:\\\\N73\")",
+      "Read(//d/N73/**)",
+      "Bash(venv\\\\Scripts\\\\python.exe manage.py check --settings=core.settings.dev)"
+    ]
+  }
+}
