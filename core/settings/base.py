@@ -43,8 +43,10 @@ THIRD_PARTY_APPS = [
 MY_APPS = [
     'apps.shared',
     'apps.users',
-    'apps.info',
-    'apps.feedback',
+    'apps.about',
+    'apps.blogs',
+    'apps.contact',
+    'apps.services',
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
