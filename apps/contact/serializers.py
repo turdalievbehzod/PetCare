@@ -12,4 +12,5 @@ class ContactInquirySerializer(serializers.ModelSerializer):
 class ContactInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactInfo
-        fields = ["id", "address", "phone", "email", "working_hours", "map_embed_url"]
+        fields = ["id", "address", "phone", "email", "working_hours", "map_embed_url",
+                  "facebook_url", "twitter_url", "linkedin_url", "instagram_url"]

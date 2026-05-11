@@ -1,15 +1,13 @@
 <!doctype html>
-<html class="no-js" lang="zxx">
+<html class="no-js" lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Animal | Template </title>
-    <meta name="description" content="">
+    <title>About Us | PetCare</title>
+    <meta name="description" content="Learn about PetCare's mission, vision, team, and commitment to your pets.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
-    <!-- CSS here -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/slicknav.css">
@@ -21,6 +19,48 @@
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <style>
+        /* --- About page styles --- */
+        .about-counter-area { padding: 60px 0; background: #f9f9f9; }
+        .single-counter h2 { font-size: 2.4rem; font-weight: 700; color: #2d2d2d; margin: 10px 0 4px; }
+        .single-counter p { font-size: 13px; color: #777; margin: 0; }
+        .single-counter i { display: block; margin-bottom: 6px; }
+
+        /* --- Section title --- */
+        .section-tittle h2 { font-size: 1.8rem; }
+        .section-tittle span { color: #3eb489; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- Team bio --- */
+        .team-bio { font-size: 13px; color: #888; margin-top: 6px; }
+
+        /* --- Testimonials section --- */
+        #testimonials-section { padding: 60px 0; background: #f4fdf9; }
+
+        /* --- CTA section --- */
+        .about-cta { background: #3eb489; padding: 70px 0; }
+        .about-cta h3 { color: #fff; font-size: 2rem; margin-bottom: 12px; }
+        .about-cta p { color: rgba(255,255,255,.85); margin-bottom: 28px; }
+        .about-cta .btn-white { background: #fff; color: #3eb489; font-weight: 700; padding: 12px 32px; border-radius: 4px; border: none; }
+        .about-cta .btn-white:hover { background: #2c9a72; color: #fff; }
+        .about-cta .cta-phone { color: #fff; font-size: 1.1rem; margin-left: 20px; }
+        .about-cta .cta-phone i { margin-right: 6px; }
+
+        /* --- Blog section --- */
+        .home_blog-area { padding: 60px 0; }
+
+        /* --- Testimonials: hidden until renderTestimonials() reveals it --- */
+        #testimonials-section { display: none; }
+
+        /* --- CTA phone link colour --- */
+        .cta-phone a { color: #fff; }
+
+        /* --- Mission/Vision fallback --- */
+        #about-mission-vision:empty::after {
+            content: 'Content loading…';
+            color: #ccc;
+        }
+    </style>
 </head>
 
 <body>
@@ -35,24 +75,22 @@
             </div>
         </div>
     </div>
-    <!-- Preloader Start -->
+    <!-- Preloader End -->
+
     <header>
-        <!--? Header Start -->
         <div class="header-area header-transparent">
             <div class="main-header header-sticky">
                 <div class="container-fluid">
                     <div class="row align-items-center">
-                        <!-- Logo -->
                         <div class="col-xl-2 col-lg-2 col-md-1">
                             <div class="logo">
-                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                                <a href="index.html" title="PetCare Home"><img src="assets/img/logo/logo.png" alt="PetCare logo"></a>
                             </div>
                         </div>
                         <div class="col-xl-10 col-lg-10 col-md-10">
                             <div class="menu-main d-flex align-items-center justify-content-end">
-                                <!-- Main-menu -->
                                 <div class="main-menu f-right d-none d-lg-block">
-                                    <nav> 
+                                    <nav>
                                         <ul id="navigation">
                                             <li><a href="index.html">Home</a></li>
                                             <li><a href="about.html">About</a></li>
@@ -67,11 +105,9 @@
                                         </ul>
                                     </nav>
                                 </div>
-                                <div class="header-right-btn f-right d-none d-lg-block ml-30" id="auth-buttons">
-                                </div>
+                                <div class="header-right-btn f-right d-none d-lg-block ml-30" id="auth-buttons"></div>
                             </div>
-                        </div>   
-                        <!-- Mobile Menu -->
+                        </div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -79,10 +115,10 @@
                 </div>
             </div>
         </div>
-        <!-- Header End -->
     </header>
-    <main> 
-        <!-- Hero Area Start -->
+
+    <main>
+        <!-- Hero Area -->
         <div class="slider-area2 slider-height2 d-flex align-items-center">
             <div class="container">
                 <div class="row">
@@ -94,47 +130,44 @@
                 </div>
             </div>
         </div>
-        <!-- Hero Area End -->
-        <!-- About Details Start -->
+
+        <!-- Mission / Vision -->
         <div class="about-details section-padding30">
             <div class="container">
                 <div class="row">
                     <div class="offset-xl-1 col-lg-8" id="about-mission-vision">
-                        <!-- loaded dynamically -->
+                        <!-- filled dynamically -->
                     </div>
                 </div>
             </div>
         </div>
-        <!-- About Details End -->
-        <!--? About Area Start-->
+
+        <!-- Commitment + 2 main stat boxes -->
         <div class="about-area fix">
-            <!--Right Contents  -->
             <div class="about-img">
                 <div class="info-man text-center">
-                <div class="head-cap">
-                    <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28px" height="39px">
-                        <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
-                        d="M24.000,19.000 C21.791,19.000 20.000,17.209 20.000,15.000 C20.000,12.790 21.791,11.000 24.000,11.000 C26.209,11.000 28.000,12.790 28.000,15.000 C28.000,17.209 26.209,19.000 24.000,19.000 ZM24.000,8.000 C21.791,8.000 20.000,6.209 20.000,4.000 C20.000,1.790 21.791,-0.001 24.000,-0.001 C26.209,-0.001 28.000,1.790 28.000,4.000 C28.000,6.209 26.209,8.000 24.000,8.000 ZM14.000,38.999 C11.791,38.999 10.000,37.209 10.000,35.000 C10.000,32.791 11.791,31.000 14.000,31.000 C16.209,31.000 18.000,32.791 18.000,35.000 C18.000,37.209 16.209,38.999 14.000,38.999 ZM14.000,29.000 C11.791,29.000 10.000,27.209 10.000,25.000 C10.000,22.791 11.791,21.000 14.000,21.000 C16.209,21.000 18.000,22.791 18.000,25.000 C18.000,27.209 16.209,29.000 14.000,29.000 ZM14.000,19.000 C11.791,19.000 10.000,17.209 10.000,15.000 C10.000,12.790 11.791,11.000 14.000,11.000 C16.209,11.000 18.000,12.790 18.000,15.000 C18.000,17.209 16.209,19.000 14.000,19.000 ZM14.000,8.000 C11.791,8.000 10.000,6.209 10.000,4.000 C10.000,1.790 11.791,-0.001 14.000,-0.001 C16.209,-0.001 18.000,1.790 18.000,4.000 C18.000,6.209 16.209,8.000 14.000,8.000 ZM4.000,29.000 C1.791,29.000 -0.000,27.209 -0.000,25.000 C-0.000,22.791 1.791,21.000 4.000,21.000 C6.209,21.000 8.000,22.791 8.000,25.000 C8.000,27.209 6.209,29.000 4.000,29.000 ZM4.000,19.000 C1.791,19.000 -0.000,17.209 -0.000,15.000 C-0.000,12.790 1.791,11.000 4.000,11.000 C6.209,11.000 8.000,12.790 8.000,15.000 C8.000,17.209 6.209,19.000 4.000,19.000 ZM4.000,8.000 C1.791,8.000 -0.000,6.209 -0.000,4.000 C-0.000,1.790 1.791,-0.001 4.000,-0.001 C6.209,-0.001 8.000,1.790 8.000,4.000 C8.000,6.209 6.209,8.000 4.000,8.000 ZM24.000,21.000 C26.209,21.000 28.000,22.791 28.000,25.000 C28.000,27.209 26.209,29.000 24.000,29.000 C21.791,29.000 20.000,27.209 20.000,25.000 C20.000,22.791 21.791,21.000 24.000,21.000 Z"/>
-                    </svg>
-                    <h3 id="stat1-value">354</h3>
-                </div>
+                    <div class="head-cap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="39px">
+                            <path fill-rule="evenodd" fill="rgb(255,255,255)"
+                                d="M24,19C21.791,19 20,17.209 20,15C20,12.79 21.791,11 24,11C26.209,11 28,12.79 28,15C28,17.209 26.209,19 24,19ZM24,8C21.791,8 20,6.209 20,4C20,1.79 21.791,-0.001 24,-0.001C26.209,-0.001 28,1.79 28,4C28,6.209 26.209,8 24,8ZM14,39C11.791,39 10,37.209 10,35C10,32.791 11.791,31 14,31C16.209,31 18,32.791 18,35C18,37.209 16.209,39 14,39ZM14,29C11.791,29 10,27.209 10,25C10,22.791 11.791,21 14,21C16.209,21 18,22.791 18,25C18,27.209 16.209,29 14,29ZM14,19C11.791,19 10,17.209 10,15C10,12.79 11.791,11 14,11C16.209,11 18,12.79 18,15C18,17.209 16.209,19 14,19ZM14,8C11.791,8 10,6.209 10,4C10,1.79 11.791,-0.001 14,-0.001C16.209,-0.001 18,1.79 18,4C18,6.209 16.209,8 14,8ZM4,29C1.791,29 0,27.209 0,25C0,22.791 1.791,21 4,21C6.209,21 8,22.791 8,25C8,27.209 6.209,29 4,29ZM4,19C1.791,19 0,17.209 0,15C0,12.79 1.791,11 4,11C6.209,11 8,12.79 8,15C8,17.209 6.209,19 4,19ZM4,8C1.791,8 0,6.209 0,4C0,1.79 1.791,-0.001 4,-0.001C6.209,-0.001 8,1.79 8,4C8,6.209 6.209,8 4,8ZM24,21C26.209,21 28,22.791 28,25C28,27.209 26.209,29 24,29C21.791,29 20,27.209 20,25C20,22.791 21.791,21 24,21Z"/>
+                        </svg>
+                        <h3 id="stat1-value">—</h3>
+                    </div>
                     <p id="stat1-label">Success<br>Treatment</p>
                 </div>
                 <div class="info-man info-man2 text-center">
-                <div class="head-cap">
-                        <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28px" height="39px">
-                            <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
-                            d="M24.000,19.000 C21.791,19.000 20.000,17.209 20.000,15.000 C20.000,12.790 21.791,11.000 24.000,11.000 C26.209,11.000 28.000,12.790 28.000,15.000 C28.000,17.209 26.209,19.000 24.000,19.000 ZM24.000,8.000 C21.791,8.000 20.000,6.209 20.000,4.000 C20.000,1.790 21.791,-0.001 24.000,-0.001 C26.209,-0.001 28.000,1.790 28.000,4.000 C28.000,6.209 26.209,8.000 24.000,8.000 ZM14.000,38.999 C11.791,38.999 10.000,37.209 10.000,35.000 C10.000,32.791 11.791,31.000 14.000,31.000 C16.209,31.000 18.000,32.791 18.000,35.000 C18.000,37.209 16.209,38.999 14.000,38.999 ZM14.000,29.000 C11.791,29.000 10.000,27.209 10.000,25.000 C10.000,22.791 11.791,21.000 14.000,21.000 C16.209,21.000 18.000,22.791 18.000,25.000 C18.000,27.209 16.209,29.000 14.000,29.000 ZM14.000,19.000 C11.791,19.000 10.000,17.209 10.000,15.000 C10.000,12.790 11.791,11.000 14.000,11.000 C16.209,11.000 18.000,12.790 18.000,15.000 C18.000,17.209 16.209,19.000 14.000,19.000 ZM14.000,8.000 C11.791,8.000 10.000,6.209 10.000,4.000 C10.000,1.790 11.791,-0.001 14.000,-0.001 C16.209,-0.001 18.000,1.790 18.000,4.000 C18.000,6.209 16.209,8.000 14.000,8.000 ZM4.000,29.000 C1.791,29.000 -0.000,27.209 -0.000,25.000 C-0.000,22.791 1.791,21.000 4.000,21.000 C6.209,21.000 8.000,22.791 8.000,25.000 C8.000,27.209 6.209,29.000 4.000,29.000 ZM4.000,19.000 C1.791,19.000 -0.000,17.209 -0.000,15.000 C-0.000,12.790 1.791,11.000 4.000,11.000 C6.209,11.000 8.000,12.790 8.000,15.000 C8.000,17.209 6.209,19.000 4.000,19.000 ZM4.000,8.000 C1.791,8.000 -0.000,6.209 -0.000,4.000 C-0.000,1.790 1.791,-0.001 4.000,-0.001 C6.209,-0.001 8.000,1.790 8.000,4.000 C8.000,6.209 6.209,8.000 4.000,8.000 ZM24.000,21.000 C26.209,21.000 28.000,22.791 28.000,25.000 C28.000,27.209 26.209,29.000 24.000,29.000 C21.791,29.000 20.000,27.209 20.000,25.000 C20.000,22.791 21.791,21.000 24.000,21.000 Z"/>
+                    <div class="head-cap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="39px">
+                            <path fill-rule="evenodd" fill="rgb(255,255,255)"
+                                d="M24,19C21.791,19 20,17.209 20,15C20,12.79 21.791,11 24,11C26.209,11 28,12.79 28,15C28,17.209 26.209,19 24,19ZM24,8C21.791,8 20,6.209 20,4C20,1.79 21.791,-0.001 24,-0.001C26.209,-0.001 28,1.79 28,4C28,6.209 26.209,8 24,8ZM14,39C11.791,39 10,37.209 10,35C10,32.791 11.791,31 14,31C16.209,31 18,32.791 18,35C18,37.209 16.209,39 14,39ZM14,29C11.791,29 10,27.209 10,25C10,22.791 11.791,21 14,21C16.209,21 18,22.791 18,25C18,27.209 16.209,29 14,29ZM14,19C11.791,19 10,17.209 10,15C10,12.79 11.791,11 14,11C16.209,11 18,12.79 18,15C18,17.209 16.209,19 14,19ZM14,8C11.791,8 10,6.209 10,4C10,1.79 11.791,-0.001 14,-0.001C16.209,-0.001 18,1.79 18,4C18,6.209 16.209,8 14,8ZM4,29C1.791,29 0,27.209 0,25C0,22.791 1.791,21 4,21C6.209,21 8,22.791 8,25C8,27.209 6.209,29 4,29ZM4,19C1.791,19 0,17.209 0,15C0,12.79 1.791,11 4,11C6.209,11 8,12.79 8,15C8,17.209 6.209,19 4,19ZM4,8C1.791,8 0,6.209 0,4C0,1.79 1.791,-0.001 4,-0.001C6.209,-0.001 8,1.79 8,4C8,6.209 6.209,8 4,8ZM24,21C26.209,21 28,22.791 28,25C28,27.209 26.209,29 24,29C21.791,29 20,27.209 20,25C20,22.791 21.791,21 24,21Z"/>
                         </svg>
-                        <h3 id="stat2-value">354</h3>
-                </div>
-                    <p id="stat2-label">Success<br>Treatment</p>
+                        <h3 id="stat2-value">—</h3>
+                    </div>
+                    <p id="stat2-label">Happy<br>Clients</p>
                 </div>
             </div>
-            <!-- left Contents -->
             <div class="about-details">
                 <div class="right-caption">
-                    <!-- Section Tittle -->
                     <div class="section-tittle mb-50">
                         <h2 id="about-commitment-title">We are committed for better service</h2>
                     </div>
@@ -145,202 +178,111 @@
                 </div>
             </div>
         </div>
-        <!-- About Area End-->
-        <!--? Team Start -->
+
+        <!-- Stats Counter Row -->
+        <div class="about-counter-area">
+            <div class="container">
+                <div class="row justify-content-center" id="about-stats">
+                    <!-- filled by renderStats() -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
         <div class="team-area section-padding30">
             <div class="container">
                 <div class="row justify-content-sm-center">
-                    <div class="cl-xl-7 col-lg-8 col-md-10">
-                        <!-- Section Tittle -->
+                    <div class="col-xl-7 col-lg-8 col-md-10">
                         <div class="section-tittle text-center mb-70">
-                            <span>Our Professional members </span>
-                            <h2>Our Team Mambers</h2>
-                        </div> 
+                            <span>Our Professional Members</span>
+                            <h2>Meet Our Team</h2>
+                        </div>
                     </div>
                 </div>
                 <div class="row" id="team-grid">
+                    <!-- filled by renderTeam() -->
                 </div>
             </div>
         </div>
-        <!-- Team End -->
-        <!--? Contact form Start -->
-        <div class="contact-form-main pb-top">
+
+        <!-- Testimonials Section -->
+        <div id="testimonials-section">
             <div class="container">
-                <div class="row justify-content-md-end">
-                    <div class="col-xl-7 col-lg-7">
-                        <div class="form-wrapper">
-                            <!--Section Tittle  -->
-                            <div class="form-tittle">
-                                <div class="row ">
-                                    <div class="col-xl-12">
-                                        <div class="section-tittle section-tittle2 mb-70">
-                                            <h2>World's Leading Law Consultency Agency !</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--End Section Tittle  -->
-                            <form id="contact-form" action="#" method="POST">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-box user-icon mb-30">
-                                            <input type="text" name="name" placeholder="Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-box email-icon mb-30">
-                                            <input type="text" name="email" placeholder="Phone">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 mb-30">
-                                        <div class="select-itms">
-                                            <select name="select" id="select2">
-                                                <option value="">Health Law</option>
-                                                <option value="">saiful islam</option>
-                                                <option value="">Arafath Miya</option>
-                                                <option value="">Shakil Miya</option>
-                                                <option value="">Tamim Sharker</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-box subject-icon mb-30">
-                                            <input type="Email" name="subject" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-box message-icon mb-65">
-                                            <textarea name="message" id="message" placeholder="Message"></textarea>
-                                        </div>
-                                        <div class="submit-info">
-                                            <button class="btn submit-btn2" type="submit">Submit Now</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- shape-dog -->
-                                <div class="shape-dog">
-                                    <img src="assets/img/gallery/shape1.png" alt="">
-                                </div>
-                            </form>
+                <div class="row justify-content-sm-center">
+                    <div class="col-xl-7 col-lg-8 col-md-10">
+                        <div class="section-tittle text-center mb-70">
+                            <span>Client Reviews</span>
+                            <h2>What Our Clients Say</h2>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- contact left Img-->
-            <div class="from-left d-none d-lg-block">
-                <img src="assets/img/gallery/contact_form.png" alt="">
+                <div class="row" id="testimonials-container">
+                    <!-- filled by renderTestimonials() -->
+                </div>
             </div>
         </div>
-        <!-- Contact form End -->
-        <!--? Blog start -->
+
+        <!-- Recent Blog Section -->
         <div class="home_blog-area section-padding30">
             <div class="container">
                 <div class="row justify-content-sm-center">
-                    <div class="cl-xl-7 col-lg-8 col-md-10">
-                        <!-- Section Tittle -->
+                    <div class="col-xl-7 col-lg-8 col-md-10">
                         <div class="section-tittle text-center mb-70">
-                            <span>Oure recent news</span>
+                            <span>Our Recent News</span>
                             <h2>Our Recent Blog</h2>
-                        </div> 
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-blogs mb-30">
-                            <div class="blog-img">
-                                <img src="assets/img/gallery/blog1.png" alt="">
-                            </div>
-                            <div class="blogs-cap">
-                                <div class="date-info">
-                                    <span>Pet food</span>
-                                    <p>Nov 30, 2020</p>
-                                </div>
-                                <h4>Amazing Places To Visit In Summer</h4>
-                                <a href="blog_details.html" class="read-more1">Read more</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-blogs mb-30">
-                            <div class="blog-img">
-                                <img src="assets/img/gallery/blog2.png" alt="">
-                            </div>
-                            <div class="blogs-cap">
-                                <div class="date-info">
-                                    <span>Pet food</span>
-                                    <p>Nov 30, 2020</p>
-                                </div>
-                                <h4>Developing Creativithout Losing Visual</h4>
-                                <a href="blog_details.html" class="read-more1">Read more</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="single-blogs mb-30">
-                            <div class="blog-img">
-                                <img src="assets/img/gallery/blog3.png" alt="">
-                            </div>
-                            <div class="blogs-cap">
-                                <div class="date-info">
-                                    <span>Pet food</span>
-                                    <p>Nov 30, 2020</p>
-                                </div>
-                                <h4>Winter Photography Tips from Glenn</h4>
-                                <a href="blog_details.html" class="read-more1">Read more</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row" id="recent-blogs-grid">
+                    <!-- filled by renderRecentBlogs() -->
                 </div>
             </div>
         </div>
-        <!-- Blog End -->
-        <!--? contact-animal-owner Start -->
-        <div class="contact-animal-owner section-bg" data-background="assets/img/gallery/section_bg04.png">
+
+        <!-- CTA Section -->
+        <div class="contact-animal-owner section-bg about-cta" data-background="assets/img/gallery/section_bg04.png">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="contact_text text-center">
-                            <div class="section_title text-center">
-                                <h3>Any time you can call us!</h3>
-                                <p>Because we know that even the best technology is only as good as the people behind it. 24/7 tech support.</p>
-                            </div>
-                            <div class="contact_btn d-flex align-items-center justify-content-center">
-                                <a href="contact.html" class="btn white-btn">Contact Us</a>
-                                <p>Or<a href="#"> +880 4664 216</a></p>
-                            </div>
+                    <div class="col-lg-8 text-center">
+                        <h3>Any time you can call us!</h3>
+                        <p>Our veterinary team is here for you and your pets — 24/7 support available.</p>
+                        <div class="d-flex align-items-center justify-content-center flex-wrap">
+                            <a href="contact.html" class="btn white-btn mr-3 mb-2">Contact Us</a>
+                            <span class="cta-phone mb-2">
+                                <i class="fas fa-phone"></i>
+                                <a href="#" class="js-contact-phone" aria-label="Call us"></a>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- contact-animal-owner End -->
     </main>
+
     <footer>
-        <!-- Footer Start-->
+        <!-- Footer Start -->
         <div class="footer-area footer-padding">
             <div class="container">
                 <div class="row d-flex justify-content-between">
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                       <div class="single-footer-caption mb-50">
-                         <div class="single-footer-caption mb-30">
-                              <!-- logo -->
-                             <div class="footer-logo mb-25">
-                                 <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
-                             </div>
-                             <div class="footer-tittle">
-                                 <div class="footer-pera">
-                                     <p>Lorem ipsum dolor sit amet, adipiscing elit, sed do eiusmod tempor elit. </p>
+                        <div class="single-footer-caption mb-50">
+                            <div class="single-footer-caption mb-30">
+                                <div class="footer-logo mb-25">
+                                    <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt="PetCare"></a>
                                 </div>
-                             </div>
-                             <!-- social -->
-                             <div class="footer-social">
-                                 <a href="https://www.facebook.com/sai4ull"><i class="fab fa-facebook-square"></i></a>
-                                 <a href="#"><i class="fab fa-twitter-square"></i></a>
-                                 <a href="#"><i class="fab fa-linkedin"></i></a>
-                                 <a href="#"><i class="fab fa-pinterest-square"></i></a>
-                             </div>
-                         </div>
-                       </div>
+                                <div class="footer-tittle">
+                                    <div class="footer-pera">
+                                        <p id="footer-desc"></p>
+                                    </div>
+                                </div>
+                                <div class="footer-social" id="footer-social">
+                                    <a href="#" data-social="facebook" aria-label="Facebook" rel="noopener noreferrer" target="_blank"><i class="fab fa-facebook-square"></i></a>
+                                    <a href="#" data-social="twitter" aria-label="Twitter" rel="noopener noreferrer" target="_blank"><i class="fab fa-twitter-square"></i></a>
+                                    <a href="#" data-social="linkedin" aria-label="LinkedIn" rel="noopener noreferrer" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#" data-social="instagram" aria-label="Instagram" rel="noopener noreferrer" target="_blank"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-4 col-sm-5">
                         <div class="single-footer-caption mb-50">
@@ -350,8 +292,7 @@
                                     <li><a href="index.html">Home</a></li>
                                     <li><a href="about.html">About Us</a></li>
                                     <li><a href="services.html">Services</a></li>
-                                    <li><a href="#">Cases</a></li>
-                                    <li><a href="contact.html">  Contact Us</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -360,13 +301,7 @@
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
                                 <h4>Services</h4>
-                                <ul>
-                                    <li><a href="#">Commercial Cleaning</a></li>
-                                    <li><a href="#">Office Cleaning</a></li>
-                                    <li><a href="#">Building Cleaning</a></li>
-                                    <li><a href="#">Floor Cleaning</a></li>
-                                    <li><a href="#">Apartment Cleaning</a></li>
-                                </ul>
+                                <ul id="footer-services"></ul>
                             </div>
                         </div>
                     </div>
@@ -375,10 +310,10 @@
                             <div class="footer-tittle">
                                 <h4>Get in Touch</h4>
                                 <ul>
-                                 <li><a href="#">152-515-6565</a></li>
-                                 <li><a href="#"> Demomail@gmail.com</a></li>
-                                 <li><a href="#">New Orleans, USA</a></li>
-                             </ul>
+                                    <li><a href="#" class="js-contact-phone" aria-label="Phone"></a></li>
+                                    <li><a href="#" class="js-contact-email" aria-label="Email"></a></li>
+                                    <li><span class="js-contact-address"></span></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -389,134 +324,95 @@
         <div class="footer-bottom-area">
             <div class="container">
                 <div class="footer-border">
-                     <div class="row d-flex align-items-center">
-                         <div class="col-xl-12 ">
-                             <div class="footer-copy-right text-center">
-                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                             </div>
-                         </div>
-                     </div>
+                    <div class="row d-flex align-items-center">
+                        <div class="col-xl-12">
+                            <div class="footer-copy-right text-center">
+                                <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" rel="noopener noreferrer">Colorlib</a></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- Footer End-->
+        <!-- Footer End -->
     </footer>
+
     <!-- Scroll Up -->
-    <div id="back-top" >
-        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+    <div id="back-top">
+        <a title="Go to Top" href="#"><i class="fas fa-level-up-alt"></i></a>
     </div>
 
-    <!-- JS here -->
-    
-        <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
-		<!-- Jquery, Popper, Bootstrap -->
-		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
-        <script src="./assets/js/popper.min.js"></script>
-        <script src="./assets/js/bootstrap.min.js"></script>
-	    <!-- Jquery Mobile Menu -->
-        <script src="./assets/js/jquery.slicknav.min.js"></script>
-
-		<!-- Jquery Slick , Owl-Carousel Plugins -->
-        <script src="./assets/js/owl.carousel.min.js"></script>
-        <script src="./assets/js/slick.min.js"></script>
-		<!-- One Page, Animated-HeadLin -->
-        <script src="./assets/js/wow.min.js"></script>
-		<script src="./assets/js/animated.headline.js"></script>
-        <script src="./assets/js/jquery.magnific-popup.js"></script>
-
-		<!-- Nice-select, sticky -->
-        <script src="./assets/js/jquery.nice-select.min.js"></script>
-		<script src="./assets/js/jquery.sticky.js"></script>
-        
-        <!-- contact js -->
-        <script src="./assets/js/contact.js"></script>
-        <script src="./assets/js/jquery.form.js"></script>
-        <script src="./assets/js/jquery.validate.min.js"></script>
-        <script src="./assets/js/mail-script.js"></script>
-        <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
-        
-		<!-- Jquery Plugins, main Jquery -->	
-        <script src="./assets/js/plugins.js"></script>
-        <script src="./assets/js/main.js"></script>
-        <script>
-        document.addEventListener("DOMContentLoaded", async function () {
-            try {
-                const res = await fetch("/api/v1/about/");
-                const result = await res.json();
-                const about = result.data ?? result;
-                if (about) {
-                    const mv = document.getElementById("about-mission-vision");
-                    if (mv) mv.innerHTML = `
-                        <div class="section-tittle mb-30">
-                            <h2>${about.mission_title || ''}</h2>
-                        </div>
-                        <p class="mb-40">${about.mission_content || ''}</p>
-                        <div class="section-tittle mb-30">
-                            <h2>${about.vision_title || ''}</h2>
-                        </div>
-                        <p>${about.vision_content || ''}</p>
-                    `;
-                    const ct = document.getElementById("about-commitment-title");
-                    if (ct && about.commitment_title) ct.textContent = about.commitment_title;
-                    const cd = document.getElementById("about-commitment-desc");
-                    if (cd) cd.textContent = about.commitment_description || '';
-                    const s1v = document.getElementById("stat1-value");
-                    if (s1v && about.stat1_value) s1v.textContent = about.stat1_value;
-                    const s1l = document.getElementById("stat1-label");
-                    if (s1l && about.stat1_label) s1l.innerHTML = about.stat1_label;
-                    const s2v = document.getElementById("stat2-value");
-                    if (s2v && about.stat2_value) s2v.textContent = about.stat2_value;
-                    const s2l = document.getElementById("stat2-label");
-                    if (s2l && about.stat2_label) s2l.innerHTML = about.stat2_label;
-                }
-            } catch (err) {
-                console.error(err);
-            }
-
-            try {
-                const res = await fetch("/api/v1/about/team/");
-                const result = await res.json();
-                const members = result.data ?? result.results ?? result;
-                const grid = document.getElementById("team-grid");
-                if (grid && members && members.length) {
-                    grid.innerHTML = members.map(m => `
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                            <div class="single-team mb-30">
-                                <div class="team-img">
-                                    <img src="${m.photo_url || 'assets/img/gallery/team1.png'}" alt="">
-                                </div>
-                                <div class="team-caption">
-                                    <span>${m.name}</span>
-                                    <h3><a href="#">${m.title}</a></h3>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        });
-        </script>
+    <!-- JS -->
+    <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="./assets/js/popper.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <script src="./assets/js/jquery.slicknav.min.js"></script>
+    <script src="./assets/js/owl.carousel.min.js"></script>
+    <script src="./assets/js/slick.min.js"></script>
+    <script src="./assets/js/wow.min.js"></script>
+    <script src="./assets/js/animated.headline.js"></script>
+    <script src="./assets/js/jquery.magnific-popup.js"></script>
+    <script src="./assets/js/jquery.nice-select.min.js"></script>
+    <script src="./assets/js/jquery.sticky.js"></script>
+    <script src="./assets/js/plugins.js"></script>
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/api.js"></script>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const authContainer = document.getElementById("auth-buttons");
-        const token = localStorage.getItem("access_token");
-        if (token) {
-            authContainer.innerHTML = '<a href="#" id="logoutBtn" class="header-btn">Logout</a>';
-            document.getElementById("logoutBtn").addEventListener("click", function (e) {
-                e.preventDefault();
-                localStorage.removeItem("access_token");
-                localStorage.removeItem("refresh_token");
-                window.location.reload();
-            });
-        } else {
-            authContainer.innerHTML = '<a href="login.html" class="header-btn mr-2">Login</a><a href="register.html" class="header-btn">Register</a>';
+    document.addEventListener('DOMContentLoaded', async function () {
+        /* Fetch all about-page data in parallel */
+        const [about, stats, team, testimonials, blogsRaw] = await Promise.all([
+            apiFetch('/about/'),
+            apiFetch('/about/stats/'),
+            apiFetch('/about/team/'),
+            apiFetch('/about/testimonials/'),
+            apiFetchRaw('/blogs/?page_size=3'),
+        ]);
+
+        /* --- Mission / Vision --- */
+        if (about) {
+            const mv = document.getElementById('about-mission-vision');
+            if (mv) {
+                const parts = [];
+                if (about.mission_title)   parts.push(`<div class="section-tittle mb-30"><h2>${escHtml(about.mission_title)}</h2></div>`);
+                if (about.mission_content) parts.push(`<p class="mb-40">${escHtml(about.mission_content)}</p>`);
+                if (about.vision_title)    parts.push(`<div class="section-tittle mb-30"><h2>${escHtml(about.vision_title)}</h2></div>`);
+                if (about.vision_content)  parts.push(`<p>${escHtml(about.vision_content)}</p>`);
+                mv.innerHTML = parts.join('');
+            }
+
+            /* Commitment */
+            const ct = document.getElementById('about-commitment-title');
+            const cd = document.getElementById('about-commitment-desc');
+            if (ct && about.commitment_title) ct.textContent = about.commitment_title;
+            if (cd) cd.textContent = about.commitment_description || '';
+
+            /* 2 main stat boxes */
+            const s1v = document.getElementById('stat1-value');
+            const s1l = document.getElementById('stat1-label');
+            const s2v = document.getElementById('stat2-value');
+            const s2l = document.getElementById('stat2-label');
+            if (s1v) s1v.textContent = about.stat1_value || '0';
+            if (s1l) s1l.textContent = about.stat1_label || 'Success Treatment';
+            if (s2v) s2v.textContent = about.stat2_value || '0';
+            if (s2l) s2l.textContent = about.stat2_label || 'Happy Clients';
         }
+
+        /* --- Stats counter row --- */
+        renderStats(stats);
+
+        /* --- Team --- */
+        renderTeam(team);
+
+        /* --- Testimonials --- */
+        renderTestimonials(testimonials);
+
+        /* --- Recent blogs --- */
+        const posts = blogsRaw && blogsRaw.results
+            ? blogsRaw.results
+            : (Array.isArray(blogsRaw) ? blogsRaw : []);
+        renderRecentBlogs(posts);
     });
     </script>
-
-    </body>
+</body>
 </html>

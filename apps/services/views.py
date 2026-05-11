@@ -1,22 +1,50 @@
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.views import APIView
 
-from apps.services.models import Service
-from apps.services.serializers import ServiceSerializer, ServiceWriteSerializer
+from apps.services.models import Service, ServiceCategory
+from apps.services.serializers import ServiceCategorySerializer, ServiceSerializer, ServiceWriteSerializer
+from apps.shared.utils.custom_pagination import CustomPageNumberPagination
 from apps.shared.utils.custom_response import CustomResponse
+
+
+class ServiceCategoryListAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        categories = ServiceCategory.objects.all()
+        return CustomResponse.success(
+            request=request,
+            data=ServiceCategorySerializer(categories, many=True).data,
+            message_key="SUCCESS",
+        )
+
+
+class FeaturedServiceListAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        qs = Service.objects.filter(is_active=True, is_featured=True).select_related("image", "category")
+        return CustomResponse.success(
+            request=request,
+            data=ServiceSerializer(qs, many=True, context={"request": request}).data,
+            message_key="SUCCESS",
+        )
 
 
 class ServiceListAPIView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        services = Service.objects.filter(is_active=True)
-        serializer = ServiceSerializer(services, many=True)
-        return CustomResponse.success(
-            request=request,
-            data=serializer.data,
-            message_key="SUCCESS",
-        )
+        qs = Service.objects.filter(is_active=True).select_related("image", "category")
+        category_slug = request.query_params.get("category")
+        if category_slug:
+            qs = qs.filter(category__slug=category_slug)
+        paginator = CustomPageNumberPagination()
+        page = paginator.paginate_queryset(qs, request)
+        if page is None:
+            page = []
+        serializer = ServiceSerializer(page, many=True, context={"request": request})
+        return paginator.get_paginated_response(serializer.data)
 
 
 class ServiceCreateAPIView(APIView):

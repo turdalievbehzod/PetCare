@@ -8,7 +8,11 @@
       "Read(//d/N73/superproyektcollaborationuraaaa/**)",
       "Bash(ls \"d:\\\\N73\\\\superproyektcollaborationuraaaa\\\\vet-proj-exam\" && echo \"---\" && ls \"d:\\\\N73\")",
       "Read(//d/N73/**)",
-      "Bash(venv\\\\Scripts\\\\python.exe manage.py check --settings=core.settings.dev)"
+      "Bash(venv\\\\Scripts\\\\python.exe manage.py check --settings=core.settings.dev)",
+      "Bash(python -c ' *)",
+      "Bash(python manage.py migrate services)",
+      "Bash(python -c \"from apps.services.views import ServiceListAPIView, ServiceCategoryListAPIView; from apps.services.serializers import ServiceSerializer, ServiceCategorySerializer; print\\('OK'\\)\")",
+      "Bash(python manage.py check apps.services)"
     ]
   }
 }

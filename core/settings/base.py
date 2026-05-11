@@ -212,3 +212,19 @@ CELERY_BEAT_SCHEDULE = {}
 # -------------------------------------------------------------------
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# -------------------------------------------------------------------
+# EMAIL CONFIG — Resend API (no SMTP)
+# -------------------------------------------------------------------
+
+RESEND_API_KEY = ""
+DEFAULT_FROM_EMAIL = "PetCare <noreply@petcare.com>"
+
+# -------------------------------------------------------------------
+# VERIFICATION CODE SETTINGS
+# -------------------------------------------------------------------
+
+# Seconds before a resend is allowed after the previous code was issued
+VERIFICATION_CODE_RESEND_COOLDOWN = 60
+# Max wrong-code attempts before the code is invalidated
+VERIFICATION_CODE_MAX_ATTEMPTS = 5

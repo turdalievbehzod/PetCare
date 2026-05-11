@@ -17,6 +17,8 @@ class AboutPage(BaseModel):
     stat1_label = models.CharField(max_length=100, default="Success Treatment")
     stat2_value = models.PositiveIntegerField(default=0)
     stat2_label = models.CharField(max_length=100, default="Happy Clients")
+    years_experience = models.PositiveSmallIntegerField(default=0)
+    appointments_count = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=True, db_index=True)
 
     class Meta:
@@ -48,3 +50,26 @@ class TeamMember(BaseModel):
 
     def __str__(self):
         return f"{self.name} — {self.title}"
+
+
+class Testimonial(BaseModel):
+    name = models.CharField(max_length=150)
+    text = models.TextField()
+    avatar = models.ForeignKey(
+        "shared.Media",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="testimonials",
+    )
+    rating = models.PositiveSmallIntegerField(default=5)
+    order = models.PositiveSmallIntegerField(default=0, db_index=True)
+    is_active = models.BooleanField(default=True, db_index=True)
+
+    class Meta:
+        ordering = ["order", "created_at"]
+        verbose_name = "Testimonial"
+        verbose_name_plural = "Testimonials"
+
+    def __str__(self):
+        return f"{self.name} ({self.rating}★)"

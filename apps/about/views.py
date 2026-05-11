@@ -1,14 +1,35 @@
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
-from apps.about.models import AboutPage, TeamMember
+from apps.about.models import AboutPage, TeamMember, Testimonial
 from apps.about.serializers import (
     AboutPageSerializer,
     AboutPageWriteSerializer,
     TeamMemberSerializer,
     TeamMemberWriteSerializer,
+    TestimonialSerializer,
+    TestimonialWriteSerializer,
 )
 from apps.shared.utils.custom_response import CustomResponse
+
+
+class AboutStatsAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        page = AboutPage.objects.filter(is_active=True).first()
+        veterinarians = TeamMember.objects.filter(is_active=True).count()
+
+        data = {
+            "successful_treatments": page.stat1_value if page else 0,
+            "successful_treatments_label": page.stat1_label if page else "Successful Treatments",
+            "happy_clients": page.stat2_value if page else 0,
+            "happy_clients_label": page.stat2_label if page else "Happy Clients",
+            "veterinarians": veterinarians,
+            "years_experience": page.years_experience if page else 0,
+            "appointments_count": page.appointments_count if page else 0,
+        }
+        return CustomResponse.success(request=request, data=data, message_key="SUCCESS")
 
 
 class AboutPageAPIView(APIView):
@@ -124,3 +145,33 @@ class TeamMemberDetailAPIView(APIView):
         member.is_active = False
         member.save(update_fields=["is_active", "updated_at"])
         return CustomResponse.success(request=request, message_key="SUCCESS")
+
+
+class TestimonialListAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        testimonials = Testimonial.objects.filter(is_active=True)
+        serializer = TestimonialSerializer(testimonials, many=True, context={"request": request})
+        return CustomResponse.success(
+            request=request,
+            data=serializer.data,
+            message_key="SUCCESS",
+        )
+
+    def post(self, request):
+        if not request.user.is_staff:
+            return CustomResponse.error(request=request, message_key="PERMISSION_DENIED")
+        serializer = TestimonialWriteSerializer(data=request.data)
+        if not serializer.is_valid():
+            return CustomResponse.error(
+                request=request,
+                errors=serializer.errors,
+                message_key="VALIDATION_ERROR",
+            )
+        testimonial = serializer.save()
+        return CustomResponse.success(
+            request=request,
+            data=TestimonialSerializer(testimonial, context={"request": request}).data,
+            message_key="CREATED",
+        )

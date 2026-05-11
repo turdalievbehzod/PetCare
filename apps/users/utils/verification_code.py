@@ -7,9 +7,14 @@ logger = logging.getLogger(__name__)
 
 
 @shared_task
-def send_verification_code(user_id):
+def send_verification_code(user_id, target_email=None):
+    """
+    Generate a fresh verification code and send it via email.
+    target_email overrides user.email — used for the email-update flow
+    where code must go to the new (unconfirmed) address.
+    """
     from apps.users.models.users import User
-    from apps.users.utils.eskiz import send_sms
+    from apps.users.utils.email_service import send_verification_email
 
     try:
         user = User.objects.get(id=user_id)
@@ -18,19 +23,16 @@ def send_verification_code(user_id):
         return
 
     code = user.generate_verification_code()
+    email = target_email or user.email
 
-    if getattr(settings, 'DEBUG_SMS', False):
-        logger.info("[DEBUG_SMS] code for %s: %s", user.phone_number or user.email, code)
-        print(f"[DEBUG_SMS] Verification code for {user.phone_number or user.email}: {code}")
+    if getattr(settings, "DEBUG_EMAIL", False):
+        logger.info("[DEBUG_EMAIL] code for %s: %s", email, code)
+        print(f"[DEBUG_EMAIL] Verification code for {email}: {code}")
         return
 
-    if user.phone_number:
-        message = f"Your verification code: {code}"
-        sent = send_sms(user.phone_number, message)
+    if email:
+        sent = send_verification_email(email, code)
         if not sent:
-            logger.error("Failed to send verification SMS to %s", user.phone_number)
-    elif user.email:
-        # Email fallback placeholder — wire up an email backend when ready
-        logger.info("Email verification code %s for %s", code, user.email)
+            logger.error("Failed to send verification email to %s", email)
     else:
-        logger.error("No contact info for user %s to send verification code", user_id)
+        logger.error("No email address for user %s — cannot send verification code", user_id)

@@ -1,113 +1,258 @@
 <!doctype html>
-<html lang="en">
+<html class="no-js" lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Login — PetCare</title>
+    <meta name="description" content="Sign in to your PetCare account.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/slicknav.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/nice-select.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .auth-section { padding: 140px 0 80px; min-height: calc(100vh - 200px); }
+        .auth-card { border-radius: 10px; padding: 40px; box-shadow: 0 4px 24px rgba(0,0,0,.08); background: #fff; }
+        .auth-card h2 { font-size: 26px; margin-bottom: 6px; }
+        .auth-card .subtitle { color: #888; font-size: 14px; margin-bottom: 28px; }
+        .auth-card .auth-alt  { font-size: 14px; }
+        #login-msg { display: none; padding: 10px 15px; border-radius: 4px; margin-bottom: 16px; font-size: 14px; }
+        #login-msg.msg-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; display: block; }
+        #login-msg.msg-error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; display: block; }
+    </style>
 </head>
 
 <body>
-
-<section style="margin-top: 120px;">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-4">
-        <div class="card p-4 shadow-sm">
-
-          <h3 class="text-center mb-3">Login</h3>
-
-          <form id="loginForm">
-
-            <div class="form-group mb-3">
-              <input type="text" name="phone_number" class="form-control" placeholder="Phone number" required>
+    <!-- Preloader -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/logo.png" alt="">
+                </div>
             </div>
-
-            <div class="form-group mb-3">
-              <input type="password" name="password" class="form-control" placeholder="Password" required>
-            </div>
-
-            <button type="submit" class="btn header-btn w-100">
-              Login
-            </button>
-
-          </form>
-
-          <p class="text-center mt-3">
-            Don’t have an account?
-            <a href="register.html">Register</a>
-          </p>
-
         </div>
-      </div>
     </div>
-  </div>
-</section>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+    <header>
+        <div class="header-area header-transparent">
+            <div class="main-header header-sticky">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2 col-lg-2 col-md-1">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt="PetCare"></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <div class="menu-main d-flex align-items-center justify-content-end">
+                                <div class="main-menu f-right d-none d-lg-block">
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li><a href="index.html">Home</a></li>
+                                            <li><a href="about.html">About</a></li>
+                                            <li><a href="services.html">Services</a></li>
+                                            <li><a href="blog.html">Blog</a>
+                                                <ul class="submenu">
+                                                    <li><a href="blog.html">Blog</a></li>
+                                                    <li><a href="blog_details.html">Blog Details</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="contact.html">Contact</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="header-right-btn f-right d-none d-lg-block ml-30" id="auth-buttons"></div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  const form = document.getElementById("loginForm");
-  const btn = form.querySelector("button");
+    <main>
+        <section class="auth-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-7 col-sm-10">
+                        <div class="auth-card">
+                            <h2 class="text-center">Welcome Back</h2>
+                            <p class="text-center subtitle">Sign in to your PetCare account</p>
 
-  function showError(msg) {
-    alert(msg);
-  }
+                            <div id="login-msg"></div>
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
+                            <form id="loginForm" novalidate>
+                                <div class="form-group mb-3">
+                                    <input type="email" name="email" class="form-control"
+                                           placeholder="Email address" required autocomplete="email">
+                                </div>
 
-    const phone = form.phone_number.value.trim();
-    const password = form.password.value.trim();
+                                <div class="form-group mb-4">
+                                    <input type="password" name="password" class="form-control"
+                                           placeholder="Password" required autocomplete="current-password">
+                                </div>
 
-    if (!phone || !password) {
-      showError("Fill all fields");
-      return;
-    }
+                                <button type="submit" id="loginBtn" class="btn header-btn w-100">
+                                    Login
+                                </button>
+                            </form>
 
-    try {
-      btn.disabled = true;
-      btn.innerText = "Loading...";
+                            <p class="text-center mt-3 auth-alt">
+                                Don't have an account? <a href="register.html">Register</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-      const response = await fetch("/api/v1/users/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          phone_number: phone,
-          password: password
-        })
-      });
+    <footer>
+        <!-- Footer Start -->
+        <div class="footer-area footer-padding">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
+                        <div class="single-footer-caption mb-50">
+                            <div class="single-footer-caption mb-30">
+                                <div class="footer-logo mb-25">
+                                    <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt="PetCare"></a>
+                                </div>
+                                <div class="footer-tittle">
+                                    <div class="footer-pera">
+                                        <p id="footer-desc"></p>
+                                    </div>
+                                </div>
+                                <div class="footer-social" id="footer-social">
+                                    <a href="#" data-social="facebook" aria-label="Facebook" rel="noopener noreferrer" target="_blank"><i class="fab fa-facebook-square"></i></a>
+                                    <a href="#" data-social="twitter" aria-label="Twitter" rel="noopener noreferrer" target="_blank"><i class="fab fa-twitter-square"></i></a>
+                                    <a href="#" data-social="linkedin" aria-label="LinkedIn" rel="noopener noreferrer" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#" data-social="instagram" aria-label="Instagram" rel="noopener noreferrer" target="_blank"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-4 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Company</h4>
+                                <ul>
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="services.html">Services</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Services</h4>
+                                <ul id="footer-services"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Get in Touch</h4>
+                                <ul>
+                                    <li><a href="#" class="js-contact-phone" aria-label="Phone"></a></li>
+                                    <li><a href="#" class="js-contact-email" aria-label="Email"></a></li>
+                                    <li><span class="js-contact-address"></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer-bottom area -->
+        <div class="footer-bottom-area">
+            <div class="container">
+                <div class="footer-border">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-xl-12">
+                            <div class="footer-copy-right text-center">
+                                <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" rel="noopener noreferrer">Colorlib</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+    </footer>
 
-      const result = await response.json();
+    <div id="back-top">
+        <a title="Go to Top" href="#"><i class="fas fa-level-up-alt"></i></a>
+    </div>
 
-      if (response.ok) {
+    <!-- JS -->
+    <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="./assets/js/popper.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <script src="./assets/js/jquery.slicknav.min.js"></script>
+    <script src="./assets/js/jquery.nice-select.min.js"></script>
+    <script src="./assets/js/jquery.sticky.js"></script>
+    <script src="./assets/js/plugins.js"></script>
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/api.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('loginForm');
+        const btn  = document.getElementById('loginBtn');
+        const msg  = document.getElementById('login-msg');
 
-        localStorage.setItem("access_token", result.data.tokens.access);
-        localStorage.setItem("refresh_token", result.data.tokens.refresh);
+        function showMsg(text, isError) {
+            msg.textContent = text;
+            msg.className = isError ? 'msg-error' : 'msg-success';
+        }
 
-        alert("Login successful!");
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            msg.className = '';
+            msg.textContent = '';
 
-        // 👉 редирект на главную
-        window.location.href = "index.html";
+            const email    = form.email.value.trim();
+            const password = form.password.value;
 
-      } else {
-        showError(result.message || JSON.stringify(result.errors));
-      }
+            if (!email || !password) {
+                showMsg('Please fill in all fields.', true);
+                return;
+            }
 
-    } catch (err) {
-      showError("Server error");
-    } finally {
-      btn.disabled = false;
-      btn.innerText = "Login";
-    }
-  });
+            btn.disabled = true;
+            btn.textContent = 'Signing in…';
 
-});
-</script>
+            const { ok, data } = await postJSON('/users/login/', { email, password });
 
+            if (ok && data && data.data && data.data.tokens) {
+                localStorage.setItem('access_token',  data.data.tokens.access);
+                localStorage.setItem('refresh_token', data.data.tokens.refresh);
+                showMsg('Login successful! Redirecting…', false);
+                setTimeout(function () { window.location.href = 'index.html'; }, 800);
+            } else {
+                showMsg((data && data.message) || 'Invalid credentials. Please try again.', true);
+                btn.disabled = false;
+                btn.textContent = 'Login';
+            }
+        });
+    });
+    </script>
 </body>
 </html>

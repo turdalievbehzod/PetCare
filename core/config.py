@@ -39,7 +39,7 @@ DB_SSLMODE = env.str('DB_SSLMODE', default='prefer')
 TELEGRAM_BOT_TOKEN = env.str('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHANNEL_ID = env.str('TELEGRAM_CHANNEL_ID')
 
-# Eskiz SMS gateway
-ESKIZ_EMAIL = env.str('ESKIZ_EMAIL', default='')
-ESKIZ_PASSWORD = env.str('ESKIZ_PASSWORD', default='')
-DEBUG_SMS = env.bool('DEBUG_SMS', default=False)
+# Email verification via Resend
+RESEND_API_KEY = env.str('RESEND_API_KEY', default='')
+DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL', default='PetCare <noreply@petcare.com>')
+DEBUG_EMAIL = env.bool('DEBUG_EMAIL', default=True)

@@ -13,6 +13,28 @@ from apps.shared.utils.custom_pagination import CustomPageNumberPagination
 from apps.shared.utils.custom_response import CustomResponse
 
 
+class BlogTagListAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        tag_strings = (
+            Blog.objects.filter(is_published=True)
+            .exclude(tags="")
+            .values_list("tags", flat=True)
+        )
+        all_tags = set()
+        for tag_str in tag_strings:
+            for tag in tag_str.split(","):
+                tag = tag.strip()
+                if tag:
+                    all_tags.add(tag)
+        return CustomResponse.success(
+            request=request,
+            data=sorted(all_tags),
+            message_key="SUCCESS",
+        )
+
+
 class BlogCategoryListAPIView(APIView):
     permission_classes = [AllowAny]
 
@@ -53,12 +75,18 @@ class BlogListAPIView(APIView):
         if category_slug:
             qs = qs.filter(category__slug=category_slug)
 
+        tag = request.query_params.get("tag")
+        if tag:
+            qs = qs.filter(tags__icontains=tag)
+
         search = request.query_params.get("search")
         if search:
             qs = qs.filter(title__icontains=search)
 
         paginator = CustomPageNumberPagination()
         page = paginator.paginate_queryset(qs, request)
+        if page is None:
+            page = []
         serializer = BlogListSerializer(page, many=True, context={"request": request})
         return paginator.get_paginated_response(serializer.data)
 

@@ -18,3 +18,8 @@ class ContactInfoAdmin(admin.ModelAdmin):
     list_display = ["phone", "email", "address", "is_active", "updated_at"]
     list_editable = ["is_active"]
     readonly_fields = ["uuid", "created_at", "updated_at"]
+    fieldsets = [
+        ("Contact Details", {"fields": ["address", "phone", "email", "working_hours", "map_embed_url"]}),
+        ("Social Links", {"fields": ["facebook_url", "twitter_url", "linkedin_url", "instagram_url"]}),
+        ("Meta", {"fields": ["is_active", "uuid", "created_at", "updated_at"]}),
+    ]

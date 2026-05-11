@@ -1,7 +1,7 @@
 from datetime import timedelta
-from django.utils import timezone
 
-import phonenumbers
+from django.conf import settings
+from django.utils import timezone
 from rest_framework import serializers
 
 from apps.shared.exceptions.custom_exceptions import CustomException
@@ -9,34 +9,26 @@ from apps.shared.models import Language
 from apps.users.models.users import User, VerificationCode
 from apps.users.utils.generate_password import generate_password
 
+_RESEND_COOLDOWN = getattr(settings, "VERIFICATION_CODE_RESEND_COOLDOWN", 60)
+_MAX_ATTEMPTS = getattr(settings, "VERIFICATION_CODE_MAX_ATTEMPTS", 5)
 
+
+# ──────────────────────────────────────────────────────────────── Registration
 class RegisterSerializer(serializers.ModelSerializer):
-    phone_number = serializers.CharField(required=True)
+    email = serializers.EmailField(required=True)
     language = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, min_length=6)
     confirm_password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ['phone_number', 'language', 'password', 'confirm_password']
+        fields = ["email", "language", "password", "confirm_password"]
 
-    def validate_phone_number(self, phone_number):
-        try:
-            parsed = phonenumbers.parse(phone_number, None)
-        except phonenumbers.NumberParseException:
-            raise CustomException(message_key="INVALID_PHONE_NUMBER_FORMAT")
-
-        if not phonenumbers.is_valid_number(parsed):
-            raise CustomException(message_key="INVALID_PHONE_NUMBER_FORMAT")
-
-        formatted = phonenumbers.format_number(
-            parsed, phonenumbers.PhoneNumberFormat.E164
-        )
-
-        if User.objects.filter(phone_number=formatted).exists():
-            raise CustomException(message_key="PHONE_NUMBER_EXIST_ERROR")
-
-        return formatted
+    def validate_email(self, email):
+        email = email.strip().lower()
+        if User.objects.filter(email=email).exists():
+            raise CustomException(message_key="EMAIL_EXIST_ERROR")
+        return email
 
     def validate_language(self, language):
         if language not in Language.values:
@@ -59,53 +51,64 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.is_active = False
         user.save()
         return user
-    
-class VerifyCodeSerializer(serializers.Serializer):
-    phone_number = serializers.CharField(required=True)
-    code = serializers.CharField(required=True)
-    
-    def validate(self, attrs):
-        phone_number = attrs.get("phone_number")
-        code = attrs.get("code")
-        user = User.objects.filter(phone_number=phone_number).first()
-        
 
-        
+
+# ──────────────────────────────────────────────────────────── Verify code
+class VerifyCodeSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    code = serializers.CharField(required=True)
+
+    def validate(self, attrs):
+        email = attrs.get("email", "").strip().lower()
+        code = attrs.get("code", "").strip()
+
+        user = User.objects.filter(email=email).first()
         if not user:
-            raise CustomException(
-                message_key="USER_NOT_FOUND"
-            )
-        verification = VerificationCode.objects.filter(user=user, code=code).first()
+            raise CustomException(message_key="USER_NOT_FOUND")
+
+        verification = VerificationCode.objects.filter(user=user).first()
         if not verification:
-            raise CustomException(
-                message_key="INVALID_VERIFICATION_CODE"
-            )
+            raise CustomException(message_key="INVALID_VERIFICATION_CODE")
+
+        # Expiration check
         expires_at = verification.created_at + timedelta(
             seconds=verification.expiration_seconds
         )
         if timezone.now() > expires_at:
             verification.delete()
             raise CustomException(message_key="VERIFICATION_CODE_EXPIRED")
-        
+
+        # Brute-force protection
+        if verification.attempts >= _MAX_ATTEMPTS:
+            verification.delete()
+            raise CustomException(message_key="MAX_VERIFICATION_ATTEMPTS")
+
+        # Wrong code → increment attempts and persist
+        if verification.code != code:
+            verification.attempts += 1
+            verification.save(update_fields=["attempts"])
+            raise CustomException(message_key="INVALID_VERIFICATION_CODE")
+
         verification.delete()
-        
+
         if not user.is_active:
             user.is_active = True
-            user.save()
-            
+            user.save(update_fields=["is_active"])
+
         attrs["user"] = user
-        
         return attrs
-    
+
+
+# ──────────────────────────────────────────────────────────────────── Login
 class LoginSerializer(serializers.Serializer):
-    phone_number = serializers.CharField()
+    email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
     def validate(self, attrs):
-        phone_number = attrs["phone_number"]
+        email = attrs["email"].strip().lower()
         password = attrs["password"]
 
-        user = User.objects.filter(phone_number=phone_number).first()
+        user = User.objects.filter(email=email).first()
         if not user:
             raise CustomException(message_key="USER_NOT_FOUND")
 
@@ -117,22 +120,33 @@ class LoginSerializer(serializers.Serializer):
 
         attrs["user"] = user
         return attrs
-    
+
+
+# ────────────────────────────────────────────────────────── Resend code
 class ResendVerificationCodeSerializer(serializers.Serializer):
-    phone_number = serializers.CharField()
+    email = serializers.EmailField()
 
     def validate(self, attrs):
-        phone_number = attrs["phone_number"]
+        email = attrs["email"].strip().lower()
 
-        user = User.objects.filter(phone_number=phone_number).first()
+        user = User.objects.filter(email=email).first()
         if not user:
             raise CustomException(message_key="USER_NOT_FOUND")
+
+        # Cooldown: reject if a code was sent less than RESEND_COOLDOWN seconds ago
+        recent = VerificationCode.objects.filter(user=user).first()
+        if recent:
+            elapsed = (timezone.now() - recent.created_at).total_seconds()
+            if elapsed < _RESEND_COOLDOWN:
+                raise CustomException(message_key="RESEND_CODE_COOLDOWN")
 
         attrs["user"] = user
         return attrs
 
+
+# ─────────────────────────────────────────────────── Password reset / set
 class SetPasswordSerializer(serializers.Serializer):
-    phone_number = serializers.CharField()
+    email = serializers.EmailField()
     password1 = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
 
@@ -140,7 +154,7 @@ class SetPasswordSerializer(serializers.Serializer):
         if attrs["password1"] != attrs["password2"]:
             raise CustomException(message_key="PASSWORDS_DO_NOT_MATCH")
 
-        user = User.objects.filter(phone_number=attrs["phone_number"]).first()
+        user = User.objects.filter(email=attrs["email"].strip().lower()).first()
         if not user:
             raise CustomException(message_key="USER_NOT_FOUND")
 
@@ -153,6 +167,8 @@ class SetPasswordSerializer(serializers.Serializer):
         user.save()
         return user
 
+
+# ──────────────────────────────────────────────── Authenticated password change
 class UpdatePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
     new_password1 = serializers.CharField(write_only=True)
@@ -176,11 +192,14 @@ class UpdatePasswordSerializer(serializers.Serializer):
         user.save()
         return user
 
+
+# ─────────────────────────────────────────────────────────── Me (read-only)
 class MeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
             "id",
+            "email",
             "phone_number",
             "first_name",
             "last_name",
@@ -188,49 +207,59 @@ class MeSerializer(serializers.ModelSerializer):
             "language",
         ]
 
-class UpdatePhoneSerializer(serializers.Serializer):
-    phone_number = serializers.CharField()
+
+# ─────────────────────────────────────────── Email update (step 1 — initiate)
+class UpdateEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
 
     def validate(self, attrs):
-        phone_number = attrs["phone_number"]
+        email = attrs["email"].strip().lower()
 
-        if User.objects.filter(phone_number=phone_number).exists():
-            raise CustomException(message_key="PHONE_NUMBER_EXIST_ERROR")
+        if User.objects.filter(email=email).exists():
+            raise CustomException(message_key="EMAIL_EXIST_ERROR")
 
-        attrs["phone_number"] = phone_number
+        attrs["email"] = email
         return attrs
 
-class VerifyUpdateCodeSerializer(serializers.Serializer):
-    phone_number = serializers.CharField()
+
+# ─────────────────────── Email update (step 2 — confirm code sent to new email)
+class VerifyUpdateEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
     code = serializers.CharField()
 
     def validate(self, attrs):
         user = self.context["request"].user
-        
-        if attrs["phone_number"] != user.temp_phone_number:
-            raise CustomException(message_key="INVALID_PHONE_NUMBER")
-        
-        verification = VerificationCode.objects.filter(
-            user=user,
-            code=attrs["code"]
-        ).first()
+        email = attrs["email"].strip().lower()
 
+        if email != (user.temp_email or "").strip().lower():
+            raise CustomException(message_key="INVALID_EMAIL")
+
+        verification = VerificationCode.objects.filter(user=user).first()
         if not verification:
             raise CustomException(message_key="INVALID_VERIFICATION_CODE")
 
         expires_at = verification.created_at + timedelta(
             seconds=verification.expiration_seconds
         )
-
         if timezone.now() > expires_at:
             verification.delete()
             raise CustomException(message_key="VERIFICATION_CODE_EXPIRED")
 
-        verification.delete()
+        if verification.attempts >= _MAX_ATTEMPTS:
+            verification.delete()
+            raise CustomException(message_key="MAX_VERIFICATION_ATTEMPTS")
 
+        if verification.code != attrs["code"].strip():
+            verification.attempts += 1
+            verification.save(update_fields=["attempts"])
+            raise CustomException(message_key="INVALID_VERIFICATION_CODE")
+
+        verification.delete()
         attrs["user"] = user
         return attrs
 
+
+# ───────────────────────────────────────────────────────── Profile update
 class ProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

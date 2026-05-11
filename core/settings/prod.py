@@ -26,9 +26,10 @@ DATABASES = {
     }
 }
 
-ESKIZ_EMAIL = config.ESKIZ_EMAIL
-ESKIZ_PASSWORD = config.ESKIZ_PASSWORD
-DEBUG_SMS = False
+DEBUG_EMAIL = False  # Never expose codes in API responses in production
+
+RESEND_API_KEY = config.RESEND_API_KEY
+DEFAULT_FROM_EMAIL = config.DEFAULT_FROM_EMAIL
 
 # Optional security settings
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

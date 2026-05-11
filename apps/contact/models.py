@@ -27,6 +27,10 @@ class ContactInfo(BaseModel):
     email = models.EmailField()
     working_hours = models.CharField(max_length=100, default="Mon to Fri 9am to 6pm")
     map_embed_url = models.URLField(blank=True)
+    facebook_url = models.URLField(blank=True)
+    twitter_url = models.URLField(blank=True)
+    linkedin_url = models.URLField(blank=True)
+    instagram_url = models.URLField(blank=True)
     is_active = models.BooleanField(default=True, db_index=True)
 
     class Meta:
