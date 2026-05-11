@@ -4,11 +4,13 @@ from core.log_config import get_logging_config
 
 # Production logging
 LOGGING = get_logging_config(environment='production')
-ADMINS = [('Sanjarbek', 'sanjarbekwork@gmail.com')]
+ADMINS = [('Behzod', 'turdalievbehzod58@gmail.com')]
 
 DEBUG = False
 SECRET_KEY = config.SECRET_KEY
 ALLOWED_HOSTS = config.ALLOWED_HOSTS
+CSRF_TRUSTED_ORIGINS = config.CSRF_TRUSTED_ORIGINS
+CORS_ALLOWED_ORIGINS = config.CORS_ALLOWED_ORIGINS
 
 # PgBouncer via 6432
 DATABASES = {
