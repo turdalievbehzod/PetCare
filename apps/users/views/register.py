@@ -47,7 +47,7 @@ class RegisterAPIView(APIView):
             data["debug_code"] = code
         else:
             # Production: generate + send asynchronously via Celery
-            send_verification_code.delay(user.id)
+            send_verification_code.user.id
 
         return CustomResponse.success(
             request=request,
@@ -103,7 +103,7 @@ class ResendVerificationCodeAPIView(APIView):
             code = user.generate_verification_code()
             logger.info("[DEBUG_EMAIL] resend code for %s: %s", user.email, code)
         else:
-            send_verification_code.delay(user.id)
+            send_verification_code.user.id
 
         return CustomResponse.success(
             request=request,
@@ -219,7 +219,7 @@ class UpdateEmailAPIView(APIView):
             logger.info("[DEBUG_EMAIL] email-update code for %s: %s", new_email, code)
         else:
             # Send code to the NEW (unconfirmed) address
-            send_verification_code.delay(request.user.id, target_email=new_email)
+            send_verification_code.request.user.id, target_email=new_email
 
         return CustomResponse.success(
             request=request,
