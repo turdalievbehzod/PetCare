@@ -64,24 +64,63 @@ function imgOrPlaceholder(url, fallback) {
     return url || fallback || 'assets/img/gallery/blog1.png';
 }
 
-/* ---- Auth buttons ---- */
+/* ---- Auth buttons (desktop + mobile) ---- */
 function initAuthButtons() {
     const container = document.getElementById('auth-buttons');
-    if (!container) return;
     const token = localStorage.getItem('access_token');
+
     if (token) {
-        container.innerHTML = '<a href="#" id="logoutBtn" class="header-btn">Logout</a>';
-        document.getElementById('logoutBtn').addEventListener('click', function (e) {
+        if (container) {
+            container.innerHTML = '<a href="#" class="header-btn js-logout">Logout</a>';
+        }
+        _injectMobileAuth('<a href="#" class="slicknav-auth-link js-logout">Logout</a>');
+    } else {
+        if (container) {
+            container.innerHTML =
+                '<a href="login.html" class="header-btn mr-2">Login</a>' +
+                '<a href="register.html" class="header-btn">Register</a>';
+        }
+        _injectMobileAuth(
+            '<a href="login.html" class="slicknav-auth-link">Login</a>' +
+            '<a href="register.html" class="slicknav-auth-link">Register</a>'
+        );
+    }
+
+    /* Event delegation covers both desktop and mobile logout buttons */
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.js-logout')) {
             e.preventDefault();
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
             window.location.reload();
-        });
-    } else {
-        container.innerHTML =
-            '<a href="login.html" class="header-btn mr-2">Login</a>' +
-            '<a href="register.html" class="header-btn">Register</a>';
+        }
+    });
+}
+
+/* Append auth links to the slicknav mobile menu */
+function _injectMobileAuth(html) {
+    /* One-time style injection for mobile auth row */
+    if (!document.getElementById('_sa-css')) {
+        var s = document.createElement('style');
+        s.id = '_sa-css';
+        s.textContent =
+            '.slicknav-auth-row{background:#444;padding:6px 10px;text-align:left;}' +
+            '.slicknav-auth-link{display:inline-block;padding:5px 14px;margin:3px 4px;' +
+            'background:#3eb489;color:#fff!important;border-radius:3px;font-size:13px;' +
+            'text-decoration:none;transition:background .2s;}' +
+            '.slicknav-auth-link:hover,.slicknav-auth-link:focus{background:#2d9a6e;color:#fff!important;}';
+        document.head.appendChild(s);
     }
+
+    var mobileMenu = document.querySelector('.mobile_menu');
+    if (!mobileMenu) return;
+    var row = mobileMenu.querySelector('.slicknav-auth-row');
+    if (!row) {
+        row = document.createElement('div');
+        row.className = 'slicknav-auth-row';
+        mobileMenu.appendChild(row);
+    }
+    row.innerHTML = html;
 }
 
 /* ---- Contact info: populate js-contact-* elements ---- */
